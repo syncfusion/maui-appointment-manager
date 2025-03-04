@@ -1,0 +1,86 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:system="clr-namespace:System;assembly=netstandard" 
+             xmlns:behaviors="clr-namespace:ManageAppointments.Behaviors"
+             xmlns:local="clr-namespace:ManageAppointments"
+             xmlns:dataForm="clr-namespace:Syncfusion.Maui.DataForm;assembly=Syncfusion.Maui.DataForm"
+             xmlns:button="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             x:Class="ManageAppointments.LoginPage"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.BindingContext>
+        <local:ProfileViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <behaviors:LoginBehavior/>
+    </ContentPage.Behaviors>
+
+    <Grid BackgroundColor="White"
+          RowDefinitions="*"
+          ColumnDefinitions="{OnPlatform Default='0.5*,0.5*', iOS='*', Android='*'}">
+
+        <Image Source="login.png" 
+               Grid.Row="0" Grid.Column="0"
+               HorizontalOptions="Start" VerticalOptions="Center"
+               Aspect="{OnPlatform Default='AspectFill', Android='AspectFit', iOS='AspectFit'}"
+               IsVisible="{OnPlatform Default=True, iOS=False, Android=False, WinUI=True, MacCatalyst=True}"/>
+
+        <Grid Grid.Row="0" Grid.Column="{OnPlatform Default=1, iOS=0, Android=0}"
+              HorizontalOptions="Center" VerticalOptions="Center" IsClippedToBounds="True" HeightRequest="{OnPlatform Default=420, Android=400, iOS=380, WinUI=450, MacCatalyst=450}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="{OnPlatform Default=175, Android=160, iOS=155, WinUI=180, MacCatalyst=180}"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <StackLayout VerticalOptions="Center">
+                <Label Padding="0,10,0,0" 
+                       HorizontalOptions="Center" 
+                       HorizontalTextAlignment="Center" 
+                       VerticalTextAlignment="Start"
+                       TextColor="Black">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Welcome back" 
+                                  FontSize="{OnPlatform Default=32, Android=30, iOS=28, WinUI=34, MacCatalyst=34}" 
+                                  FontAttributes="Bold"/>
+                            <Span Text="&#x0a;"/>
+                            <Span Text="Login to your account" 
+                                  FontSize="{OnPlatform Default=14, Android=12, iOS=12, WinUI=16, MacCatalyst=16}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </StackLayout>
+
+            <dataForm:SfDataForm x:Name="loginForm" 
+                                 LayoutType="TextInputLayout" 
+                                 Padding="{OnPlatform  WinUI='0,20,0,0', MacCatalyst='0,20,0,0'}"
+                                 Grid.Row="1"
+                                 TextInputLayoutSettings="{dataForm:TextInputLayoutSettings FocusedStroke=#a64dff}"
+                                 ValidationMode="PropertyChanged"
+                                 DataObject="{Binding LoginFormModel, Mode=TwoWay}"
+                                 WidthRequest="{OnPlatform Default=350, Android=320, iOS=300, WinUI=360, MacCatalyst=360}"/>
+
+            <Grid ColumnDefinitions="0.5*,0.5*" Grid.Row="2" Margin="{OnPlatform Android='10', iOS='10', WinUI='40,10,20,0', MacCatalyst='20,10,20,0'}" Padding="{OnPlatform Android='0,10,0,0', iOS='0,10,0,0', WinUI='0,0,0,20', MacCatalyst='0,0,0,20'}" VerticalOptions="Start">
+                <HorizontalStackLayout VerticalOptions="Center" Padding="0,0,0,0">
+                    <CheckBox Color="#a64dff"/>
+                    <Label Text="Remember me" FontSize="{OnPlatform Default=14, Android=11, iOS=12, WinUI=14, MacCatalyst=14}" TextColor="Black" BackgroundColor="Transparent"  VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <Label Text="Forgot password?" Grid.Column="1" TextColor="#a64dff"
+                       HorizontalTextAlignment="Center" Padding="10,0,0,0" 
+                       FontSize="{OnPlatform Default=12, Android=11, iOS=11, WinUI=13, MacCatalyst=13}" VerticalOptions="Center"/>
+            </Grid>
+
+            <button:SfButton Text="Login" x:Name="loginButton" HeightRequest="35"
+                             WidthRequest="{OnPlatform Default=350, Android=300, iOS=300, WinUI=340, MacCatalyst=360}"
+                             VerticalOptions="End" HorizontalOptions="Fill" 
+                             Margin="{OnPlatform Default='20,0,20,0', Android='10,0,10,0', iOS='10,0,10,0', WinUI='30,0,30,0', MacCatalyst='30,0,30,0'}"
+                             CornerRadius="{OnPlatform Default=20, Android=18, iOS=16, WinUI=22, MacCatalyst=22}"
+                             FontAttributes="Bold"
+                             Grid.Row="3" Background="#584191">
+                
+            </button:SfButton>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,94 @@
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:navigationdrawer="clr-namespace:Syncfusion.Maui.NavigationDrawer;assembly=Syncfusion.Maui.NavigationDrawer"
+             xmlns:local="clr-namespace:ManageAppointments"
+             x:Class="ManageAppointments.DashBoard">
+
+    <ContentView.BindingContext>
+        <local:DashboardViewModel/>
+    </ContentView.BindingContext>
+
+    <Grid RowDefinitions="Auto, *" Padding="10" >
+        <!-- Statistics Section -->
+        <StackLayout Orientation="{OnPlatform WinUI='Horizontal', Android='Vertical'}"
+                 Spacing="10" HorizontalOptions="FillAndExpand"
+                 Grid.Row="0">
+            <!-- Upcoming Appointments Card -->
+            <Border Stroke="#FFCC80" BackgroundColor="#FFCC80" Padding="15" HorizontalOptions="FillAndExpand">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+                <Grid>
+                    <VerticalStackLayout>
+                        <Label Text="Upcoming Appointments" FontAttributes="Bold"/>
+                        <Label Text="{Binding UpcomingAppointmentsCount}" FontSize="Medium"/>
+                    </VerticalStackLayout>
+                    <Border BackgroundColor="White" StrokeShape="Ellipse" WidthRequest="35" HeightRequest="35"
+                        Padding="3" HorizontalOptions="End" VerticalOptions="Center">
+                        <Image Source="clock.png" WidthRequest="20" HeightRequest="20"/>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Completed Appointments Card -->
+            <Border Stroke="#A5D6A7" BackgroundColor="#A5D6A7" Padding="15" HorizontalOptions="FillAndExpand">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+                <Grid>
+                    <VerticalStackLayout>
+                        <Label Text="Completed Appointments" FontAttributes="Bold"/>
+                        <Label Text="{Binding CompletedAppointmentsCount}" FontSize="Medium"/>
+                    </VerticalStackLayout>
+                    <Border BackgroundColor="White" StrokeShape="Ellipse" WidthRequest="35" HeightRequest="35"
+                        Padding="3" HorizontalOptions="End" VerticalOptions="Center">
+                        <Image Source="tick.png" WidthRequest="25" HeightRequest="15"/>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Missed Appointments Card -->
+            <Border Stroke="#EF9A9A" BackgroundColor="#EF9A9A" Padding="15" HorizontalOptions="FillAndExpand">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+                <Grid>
+                    <VerticalStackLayout>
+                        <Label Text="Missed Appointments" FontAttributes="Bold"/>
+                        <Label Text="{Binding MissedAppointmentsCount}" FontSize="Medium"/>
+                    </VerticalStackLayout>
+                    <Border BackgroundColor="White" StrokeShape="Ellipse" WidthRequest="35" HeightRequest="35"
+                        Padding="3" HorizontalOptions="End" VerticalOptions="Center">
+                        <Image Source="wrong.png" WidthRequest="25" HeightRequest="25"/>
+                    </Border>
+                </Grid>
+            </Border>
+        </StackLayout>
+
+        <!-- DataGrid Section -->
+        <syncfusion:SfDataGrid ItemsSource="{Binding Appointments}"
+                       AllowResizingColumns="True"
+                       Margin="5"
+                       HeaderRowHeight="50"
+                       ColumnWidthMode="{OnPlatform Android='Auto', WinUI='Fill'}"
+                       RowHeight="50"
+                       VerticalOptions="FillAndExpand"
+                       HorizontalOptions="FillAndExpand"
+                       Grid.Row="1"
+                       GridLinesVisibility="Horizontal"
+                       HeaderGridLinesVisibility="Horizontal">
+            <syncfusion:SfDataGrid.Columns>
+                <syncfusion:DataGridTextColumn MappingName="ID" HeaderText="ID" />
+                <syncfusion:DataGridTextColumn MappingName="PatientName" HeaderText="Patient Name" />
+                <syncfusion:DataGridTextColumn MappingName="PhoneNumber" HeaderText="Phone Number" />
+                <syncfusion:DataGridTextColumn MappingName="Date" HeaderText="Appointment DateTime" 
+                                           Format="dd MMM yyyy   hh:mm tt" Width="240"/>
+                <syncfusion:DataGridTextColumn MappingName="Status" HeaderText="Status"/>
+                <syncfusion:DataGridTextColumn MappingName="Subject" HeaderText="Subject" ColumnWidthMode="LastColumnFill"/>
+            </syncfusion:SfDataGrid.Columns>
+        </syncfusion:SfDataGrid>
+    </Grid>
+
+
+</ContentView>

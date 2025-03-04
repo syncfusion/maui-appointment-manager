@@ -1,0 +1,52 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:navigationdrawer="clr-namespace:Syncfusion.Maui.NavigationDrawer;assembly=Syncfusion.Maui.NavigationDrawer"
+             xmlns:local="clr-namespace:ManageAppointments"
+             xmlns:behaviors="clr-namespace:ManageAppointments.Behaviors"
+             x:Class="ManageAppointments.MainPage">
+    <ContentPage.Behaviors>
+        <behaviors:NavigationDrawerBehavior />
+    </ContentPage.Behaviors>
+    
+    <Grid RowDefinitions="Auto,*">
+        <!-- Top Bar -->
+        <Grid BackgroundColor="White" Padding="10,5">
+            <ImageButton x:Name="menuButton"
+                Source="ham.png"
+                         WidthRequest="{OnPlatform Android=40, WinUI=16}" HeightRequest="{OnPlatform Android=40, WinUI=16}"
+                         Aspect="AspectFit"
+                         HorizontalOptions="Start"
+                         VerticalOptions="Center"/>
+
+        </Grid>
+
+        <!-- Navigation Drawer -->
+        <navigationdrawer:SfNavigationDrawer x:Name="navigationDrawer" Grid.Row="1">
+            <navigationdrawer:SfNavigationDrawer.DrawerSettings>
+                <navigationdrawer:DrawerSettings>
+                    <navigationdrawer:DrawerSettings.DrawerContentView>
+                        <ListView x:Name="listView" 
+                                  SeparatorVisibility="None" SelectionMode="Single">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" Padding="10">
+                                            <Image Source="{Binding Icon}" WidthRequest="20" HeightRequest="20"/>
+                                            <Label Text="{Binding Title}" FontSize="16" TextColor="Black" VerticalOptions="Center" Margin="10,0,0,0"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </navigationdrawer:DrawerSettings.DrawerContentView>
+                </navigationdrawer:DrawerSettings>
+            </navigationdrawer:SfNavigationDrawer.DrawerSettings>
+
+            <navigationdrawer:SfNavigationDrawer.ContentView>
+                <ContentView x:Name="mainContentView">
+                    <local:DashBoard/>
+                </ContentView>
+            </navigationdrawer:SfNavigationDrawer.ContentView>
+        </navigationdrawer:SfNavigationDrawer>
+    </Grid>
+</ContentPage>
