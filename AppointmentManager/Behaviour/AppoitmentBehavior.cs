@@ -2,7 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Syncfusion.Maui.TabView;
+using Syncfusion.Maui.Toolkit.TabView;
 using Syncfusion.Maui.Scheduler;
 
 namespace ManageAppointments.Behaviors

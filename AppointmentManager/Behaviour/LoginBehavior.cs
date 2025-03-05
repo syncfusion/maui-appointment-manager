@@ -89,8 +89,7 @@ namespace ManageAppointments.Behaviors
 
             if (isValid)
             {
-                App.Current.Windows[0].Page = new NavigationPage();
-                await App.Current.Windows[0].Page.Navigation.PushAsync(new MainPage());
+                await App.Current.Windows[0].Page.Navigation.PushModalAsync(new MainPage());
             }
             else
             {

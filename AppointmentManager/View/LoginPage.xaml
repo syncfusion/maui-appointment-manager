@@ -4,7 +4,7 @@
              xmlns:behaviors="clr-namespace:ManageAppointments.Behaviors"
              xmlns:local="clr-namespace:ManageAppointments"
              xmlns:dataForm="clr-namespace:Syncfusion.Maui.DataForm;assembly=Syncfusion.Maui.DataForm"
-             xmlns:button="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:button="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
              x:Class="ManageAppointments.LoginPage"
              NavigationPage.HasNavigationBar="False">
 

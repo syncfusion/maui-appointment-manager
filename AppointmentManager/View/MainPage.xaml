@@ -13,7 +13,7 @@
         <Grid BackgroundColor="White" Padding="10,5">
             <ImageButton x:Name="menuButton"
                 Source="ham.png"
-                         WidthRequest="{OnPlatform Android=40, WinUI=16}" HeightRequest="{OnPlatform Android=40, WinUI=16}"
+                         WidthRequest="{OnPlatform Android=40, WinUI=16, MacCatalyst=16, iOS=40}" HeightRequest="{OnPlatform Android=40, WinUI=16}"
                          Aspect="AspectFit"
                          HorizontalOptions="Start"
                          VerticalOptions="Center"/>
