@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Maui.Controls;
-using Syncfusion.Maui.NavigationDrawer;
+using Syncfusion.Maui.Toolkit.NavigationDrawer;
 
 namespace ManageAppointments.Behaviors
 {
