@@ -64,7 +64,7 @@
 
             <Grid ColumnDefinitions="0.5*,0.5*" Grid.Row="2" Margin="{OnPlatform Android='10', iOS='10', WinUI='40,10,20,0', MacCatalyst='20,10,20,0'}" Padding="{OnPlatform Android='0,10,0,0', iOS='0,10,0,0', WinUI='0,0,0,20', MacCatalyst='0,0,0,20'}" VerticalOptions="Start">
                 <HorizontalStackLayout VerticalOptions="Center" Padding="0,0,0,0">
-                    <CheckBox Color="#a64dff"/>
+                    <CheckBox Color="#a64dff" HeightRequest="{OnPlatform WinUI=30}"/>
                     <Label Text="Remember me" FontSize="{OnPlatform Default=14, Android=11, iOS=12, WinUI=14, MacCatalyst=14}" TextColor="Black" BackgroundColor="Transparent"  VerticalOptions="Center"/>
                 </HorizontalStackLayout>
                 <Label Text="Forgot password?" Grid.Column="1" TextColor="#a64dff"
