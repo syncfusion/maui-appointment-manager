@@ -123,7 +123,7 @@ namespace ManageAppointments
         }
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Notifies when a property value changes.

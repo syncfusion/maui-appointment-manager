@@ -13,12 +13,12 @@ namespace ManageAppointments
         /// <summary>
         /// Stores the email address of the admin.
         /// </summary>
-        private string _email;
+        private string _email = string.Empty;
 
         /// <summary>
         /// Stores the password of the admin.
         /// </summary>
-        private string _password;
+        private string _password = string.Empty;
 
 
         /// <summary>
@@ -68,13 +68,13 @@ namespace ManageAppointments
         /// <summary>
         /// Occurs when a property value changes.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Notifies subscribers about property value changes.
         /// </summary>
         /// <param name="propertyName">The name of the property that changed.</param>
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

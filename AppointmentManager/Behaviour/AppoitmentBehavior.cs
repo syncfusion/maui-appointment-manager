@@ -15,12 +15,12 @@ namespace ManageAppointments.Behaviors
         /// <summary>
         /// Reference to the <see cref="SfTabView"/> used to switch between upcoming and past appointments.
         /// </summary>
-        private SfTabView tabView;
+        private SfTabView? tabView;
 
         /// <summary>
         /// ViewModel that contains appointment data for the scheduler.
         /// </summary>
-        public SchedulerViewModel viewModel { get; set; }
+        public SchedulerViewModel? viewModel { get; set; }
 
         /// <summary>
         /// Called when the behavior is attached to a <see cref="ContentView"/>.
@@ -54,9 +54,13 @@ namespace ManageAppointments.Behaviors
         {
             base.OnDetachingFrom(bindable);
 
+            if (tabView != null)
+            {
+                tabView.SelectionChanged -= OnTabSelectionChanged;
+                tabView = null;
+            }
             // Unsubscribe from the event to avoid memory leaks
-            tabView.SelectionChanged -= OnTabSelectionChanged;
-            tabView = null;
+            
         }
 
         /// <summary>
@@ -64,7 +68,7 @@ namespace ManageAppointments.Behaviors
         /// </summary>
         /// <param name="sender">The source of the event, an <see cref="SfTabView"/>.</param>
         /// <param name="e">Event arguments containing the new selected tab index.</param>
-        private void OnTabSelectionChanged(object sender, TabSelectionChangedEventArgs e)
+        private void OnTabSelectionChanged(object? sender, TabSelectionChangedEventArgs e)
         {
             if (sender is SfTabView tabView)
             {

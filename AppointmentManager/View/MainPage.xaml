@@ -30,7 +30,7 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                        <StackLayout Orientation="Horizontal" Padding="10">
+                                        <StackLayout Orientation="Horizontal" Padding="10" x:DataType="FlyoutItem">
                                             <Image Source="{Binding Icon}" WidthRequest="20" HeightRequest="20"/>
                                             <Label Text="{Binding Title}" FontSize="16" TextColor="Black" VerticalOptions="Center" Margin="10,0,0,0"/>
                                         </StackLayout>

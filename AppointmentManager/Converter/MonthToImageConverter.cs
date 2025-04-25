@@ -20,16 +20,17 @@ namespace ManageAppointments
         /// An <see cref="ImageSource"/> corresponding to the month name (e.g., "january.png").
         /// Returns null if the value is null.
         /// </returns>
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value != null)
             {
-                var monthName = String.Format("{0:MMMM}", value).ToLower() + ".png";
+                var monthName = string.Format("{0:MMMM}", value).ToLower() + ".png";
                 return ImageSource.FromFile(monthName);
             }
 
-            return null;
+            return ImageSource.FromFile(string.Empty);
         }
+
 
         /// <summary>
         /// ConvertBack is not implemented as it's not needed for this converter.
@@ -39,7 +40,7 @@ namespace ManageAppointments
         /// <param name="parameter">Optional parameter (not used).</param>
         /// <param name="culture">The culture information.</param>
         /// <returns>Always returns null.</returns>
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             return null;
         }

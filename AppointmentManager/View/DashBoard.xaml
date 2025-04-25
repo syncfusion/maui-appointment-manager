@@ -3,6 +3,7 @@
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
              xmlns:navigationdrawer="clr-namespace:Syncfusion.Maui.Toolkit.NavigationDrawer;assembly=Syncfusion.Maui.Toolkit"
              xmlns:local="clr-namespace:ManageAppointments"
+             x:DataType="local:DashboardViewModel"
              x:Class="ManageAppointments.DashBoard">
 
     <ContentView.BindingContext>

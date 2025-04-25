@@ -14,7 +14,7 @@ namespace ManageAppointments.Behaviors
         /// <summary>
         /// The login button used to trigger authentication.
         /// </summary>
-        private SfButton button;
+        private SfButton? button;
 
         /// <summary>
         /// The predefined valid email for authentication.
@@ -29,12 +29,12 @@ namespace ManageAppointments.Behaviors
         /// <summary>
         /// Gets or sets the login form used to collect user credentials.
         /// </summary>
-        public SfDataForm LoginForm { get; set; }
+        public SfDataForm? LoginForm { get; set; }
 
         /// <summary>
         /// Gets or sets the ProfileViewModel containing user login data.
         /// </summary>
-        public ProfileViewModel ProfileViewModel { get; set; }
+        public ProfileViewModel? ProfileViewModel { get; set; }
 
         /// <summary>
         /// Attaches the behavior to the specified ContentPage and initializes event handlers.
@@ -78,22 +78,32 @@ namespace ManageAppointments.Behaviors
         /// </summary>
         /// <param name="sender">The button triggering the event.</param>
         /// <param name="e">Event data.</param>
-        private async void OnButtonClicked(object sender, EventArgs e)
+        private async void OnButtonClicked(object? sender, EventArgs e)
         {
-            LoginForm.Commit();
+            LoginForm?.Commit();
 
-            var enteredEmail = ProfileViewModel.LoginFormModel.Email;
-            var enteredPassword = ProfileViewModel.LoginFormModel.Password;
-
-            bool isValid = ValidateCredentials(enteredEmail, enteredPassword);
-
-            if (isValid)
+            if (ProfileViewModel != null)
             {
-                await App.Current.Windows[0].Page.Navigation.PushModalAsync(new MainPage());
-            }
-            else
-            {
-                await DisplayAlert("Login Failed", "Invalid email or password", "OK");
+                var enteredEmail = ProfileViewModel.LoginFormModel.Email;
+                var enteredPassword = ProfileViewModel.LoginFormModel.Password;
+
+
+                bool isValid = ValidateCredentials(enteredEmail, enteredPassword);
+
+                if (isValid)
+                {
+                    var mainWindow = App.Current?.Windows.FirstOrDefault();
+                    var mainPage = mainWindow?.Page;
+
+                    if (mainPage != null)
+                    {
+                        await mainPage.Navigation.PushModalAsync(new MainPage());
+                    }
+                }
+                else
+                {
+                    await DisplayAlert("Login Failed", "Invalid email or password", "OK");
+                }
             }
         }
 
@@ -117,7 +127,16 @@ namespace ManageAppointments.Behaviors
         /// <returns>A task representing the asynchronous alert display operation.</returns>
         private Task DisplayAlert(string title, string message, string cancel)
         {
-            return App.Current.Windows[0].Page.DisplayAlert(title, message, cancel);
+            var mainWindow = App.Current?.Windows.FirstOrDefault();
+            var mainPage = mainWindow?.Page;
+
+            if (mainPage != null)
+            {
+                return mainPage.DisplayAlert(title, message, cancel);
+            }
+
+            // Fallback if Page is null — decide what makes sense in your app
+            return Task.FromResult(false);
         }
     }
 }

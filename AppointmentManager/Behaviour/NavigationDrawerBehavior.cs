@@ -14,22 +14,22 @@ namespace ManageAppointments.Behaviors
         /// <summary>
         /// The navigation drawer component used for side menu navigation.
         /// </summary>
-        private SfNavigationDrawer navigationDrawer;
+        private SfNavigationDrawer? navigationDrawer;
 
         /// <summary>
         /// The ListView that holds the navigation menu items.
         /// </summary>
-        private ListView listView;
+        private ListView? listView;
 
         /// <summary>
         /// The main content view where selected pages will be displayed.
         /// </summary>
-        private ContentView mainContentView;
+        private ContentView? mainContentView;
 
         /// <summary>
         /// The menu button that toggles the navigation drawer.
         /// </summary>
-        private ImageButton menuButton;
+        private ImageButton? menuButton;
 
         /// <summary>
         /// Attaches the behavior to the specified ContentPage and initializes UI elements.
@@ -87,7 +87,7 @@ namespace ManageAppointments.Behaviors
         /// </summary>
         /// <param name="sender">The menu button triggering the event.</param>
         /// <param name="e">Event data.</param>
-        private void OnMenuClicked(object sender, EventArgs e)
+        private void OnMenuClicked(object? sender, EventArgs e)
         {
             if (navigationDrawer != null)
                 navigationDrawer.IsOpen = !navigationDrawer.IsOpen;
@@ -98,12 +98,17 @@ namespace ManageAppointments.Behaviors
         /// </summary>
         /// <param name="sender">The ListView containing the menu items.</param>
         /// <param name="e">Event data for the selected item.</param>
-        private void OnListItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private void OnListItemSelected(object? sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
                 return;
 
             var selectedItem = (FlyoutItem)e.SelectedItem;
+
+            if (mainContentView == null || listView == null)
+            {
+                return;
+            }
 
             if (selectedItem.Title == "Dashboard")
             {
@@ -120,7 +125,7 @@ namespace ManageAppointments.Behaviors
             else if (selectedItem.Title == "Logout")
             {
                 // Reset navigation to Login Page
-                App.Current.Windows[0].Navigation.PushModalAsync(new LoginPage());
+                App.Current?.Windows[0].Navigation.PushModalAsync(new LoginPage());
             }
 
             // Reset selection (Prevents item from staying highlighted)

@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:ManageAppointments"
              xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
              x:Class="ManageAppointments.CalendarPage"
+             x:DataType="local:SchedulerViewModel"
              BackgroundColor="White">
 
     <ContentView.BindingContext>
@@ -11,7 +12,7 @@
     </ContentView.BindingContext>
 
     <ContentView.Resources>
-        <DataTemplate x:Key="dayAppointmentTemplate">
+        <DataTemplate x:Key="dayAppointmentTemplate" x:DataType="scheduler:SchedulerAppointment">
             <Grid ColumnDefinitions="0.4*,0.6*" Background="{Binding Background}">
                 <Image Aspect="AspectFit" Grid.Column="0" Margin="10"
                        HeightRequest="25" WidthRequest="25"
