@@ -13,24 +13,32 @@
 
     <ContentView.Resources>
         <DataTemplate x:Key="dayAppointmentTemplate" x:DataType="scheduler:SchedulerAppointment">
-            <Grid ColumnDefinitions="0.4*,0.6*" Background="{Binding Background}">
-                <Image Aspect="AspectFit" Grid.Column="0" Margin="10"
-                       HeightRequest="25" WidthRequest="25"
-                       VerticalOptions="Center" HorizontalOptions="Start"
+            <Grid ColumnDefinitions="{OnPlatform Android='*', WinUI='0.3*,0.7*'}" Background="{Binding Background}">
+                <Image Aspect="AspectFit" Grid.Column="0" Margin="5"
+                       HeightRequest="20" WidthRequest="20"
+                       VerticalOptions="Center" HorizontalOptions="{OnPlatform Android=Center, WinUI=Start}"
                        Source="{Binding Location}"/>
                 <Label Text="{Binding Subject}" Grid.Column="1"
-                       FontSize="12" TextColor="White" 
-                    VerticalOptions="Center" HorizontalOptions="Start"
-                       Margin="5,0,20,0"
+                       FontSize="12" TextColor="{AppThemeBinding Light=Black, Dark=White}" 
+                       VerticalOptions="Center" HorizontalOptions="Start"
+                       Margin="0,0,20,0"
                        LineBreakMode="WordWrap"
                        IsVisible="{OnPlatform Default=True, Android=False}"/>
             </Grid>
         </DataTemplate>
     </ContentView.Resources>
 
-    <Border Stroke="#F6F6F6" Background="#f8f7ff" StrokeThickness="2">
-        <scheduler:SfScheduler View="Week" Background="White" ShowDatePickerButton="True" AllowViewNavigation="False" AllowAppointmentDrag="False"
-                               AllowedViews="Month,Week,WorkWeek,Day" AppointmentsSource="{Binding Events}" DisplayDate="{Binding DisplayDate}">
+    <Border Stroke="{AppThemeBinding Light=#F6F6F6, Dark=#2A2A2A}" Background="{AppThemeBinding Light=#F8F7FF, Dark=#333333}" StrokeThickness="2">
+        <scheduler:SfScheduler View="Week" 
+                               Background="{AppThemeBinding Light=White, Dark=Black}" 
+                               BackgroundColor="{DynamicResource SfSchedulerNormalBackground}" 
+                               ShowDatePickerButton="True" 
+                               AllowViewNavigation="False" 
+                               AllowAppointmentDrag="False"
+                               AllowedViews="Month,Week,WorkWeek,Day" 
+                               AppointmentsSource="{Binding Events}" 
+                               DisplayDate="{Binding DisplayDate}">
+
             <scheduler:SfScheduler.AppointmentMapping>
                 <scheduler:SchedulerAppointmentMapping
                     Subject="EventName" 
@@ -40,11 +48,23 @@
                     Location="Location"
                     IsAllDay="IsAllDay"/>
             </scheduler:SfScheduler.AppointmentMapping>
+
             <scheduler:SfScheduler.MonthView>
-                <scheduler:SchedulerMonthView AppointmentTemplate="{StaticResource dayAppointmentTemplate}"/>
+                <scheduler:SchedulerMonthView AppointmentTemplate="{StaticResource dayAppointmentTemplate}">
+                    <scheduler:SchedulerMonthView.ViewHeaderSettings>
+                        <scheduler:SchedulerViewHeaderSettings DayFormat="ddd"
+                                                       />
+                    </scheduler:SchedulerMonthView.ViewHeaderSettings>
+                </scheduler:SchedulerMonthView>
             </scheduler:SfScheduler.MonthView>
+
             <scheduler:SfScheduler.DaysView>
-                <scheduler:SchedulerDaysView AppointmentTemplate="{StaticResource dayAppointmentTemplate}"/>
+                <scheduler:SchedulerDaysView AppointmentTemplate="{StaticResource dayAppointmentTemplate}">
+                    <scheduler:SchedulerDaysView.ViewHeaderSettings>
+                        <scheduler:SchedulerViewHeaderSettings DayFormat="ddd"
+                                   />
+                    </scheduler:SchedulerDaysView.ViewHeaderSettings>
+                </scheduler:SchedulerDaysView>
             </scheduler:SfScheduler.DaysView>
         </scheduler:SfScheduler>
     </Border>

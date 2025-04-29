@@ -32,6 +32,9 @@ namespace ManageAppointments
         /// </summary>
         public DateTime DisplayDate { get; set; }
 
+        public DateTime CurrentDate { get; set; } = DateTime.Now;
+
+
         /// <summary>
         /// Initializes and populates the appointment collection based on dashboard data.
         /// </summary>
@@ -80,13 +83,13 @@ namespace ManageAppointments
         {
             return eventName switch
             {
-                "General Check-Up" => Color.FromArgb("#1000C2"),
-                "Asthma" => Color.FromArgb("#136154"),
-                "Diagnostic report" => Color.FromArgb("#6A01F5"),
-                "Diabetes" => Color.FromArgb("#803500"),
-                "Hypothermia" => Color.FromArgb("#1D55AA"),
-                "Angina" => Color.FromArgb("#8800D1"),
-                _ => Color.FromArgb("#1000C2"),
+                "General Check-Up" => Color.FromArgb("#2196F3"), // Blue
+                "Asthma" => Color.FromArgb("#4CAF50"), // Green
+                "Diagnostic report" => Color.FromArgb("#FF4081"), // Pink
+                "Diabetes" => Color.FromArgb("#E1BEE7"), // Bright Purple
+                "Hypothermia" => Color.FromArgb("#FF9800"), // Orange
+                "Angina" => Color.FromArgb("#F44336"), // Red
+                _ => Color.FromArgb("#2196F3"), // Default Blue
             };
         }
 

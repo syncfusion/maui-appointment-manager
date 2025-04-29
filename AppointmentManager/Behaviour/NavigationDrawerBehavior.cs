@@ -29,7 +29,9 @@ namespace ManageAppointments.Behaviors
         /// <summary>
         /// The menu button that toggles the navigation drawer.
         /// </summary>
-        private ImageButton? menuButton;
+        private Label? menuButton;
+
+        private TapGestureRecognizer? menuTapGestureRecognizer;
 
         /// <summary>
         /// Attaches the behavior to the specified ContentPage and initializes UI elements.
@@ -43,11 +45,13 @@ namespace ManageAppointments.Behaviors
             navigationDrawer = bindable.FindByName<SfNavigationDrawer>("navigationDrawer");
             listView = bindable.FindByName<ListView>("listView");
             mainContentView = bindable.FindByName<ContentView>("mainContentView");
-            menuButton = bindable.FindByName<ImageButton>("menuButton"); // Find the ImageButton
+            menuButton = bindable.FindByName<Label>("menuButton"); // Find the ImageButton
 
             if (menuButton != null)
             {
-                menuButton.Clicked += OnMenuClicked; // Attach event handler
+                menuTapGestureRecognizer = new TapGestureRecognizer();
+                menuTapGestureRecognizer.Tapped += OnMenuClicked;
+                menuButton.GestureRecognizers.Add(menuTapGestureRecognizer);
             }
 
             // Set navigation items
@@ -71,10 +75,12 @@ namespace ManageAppointments.Behaviors
         {
             base.OnDetachingFrom(bindable);
 
-            if (menuButton != null)
+            if (menuButton != null && menuTapGestureRecognizer != null)
             {
-                menuButton.Clicked -= OnMenuClicked; // Detach event handler
+                menuTapGestureRecognizer.Tapped -= OnMenuClicked;
+                menuButton.GestureRecognizers.Remove(menuTapGestureRecognizer);
             }
+
 
             if (listView != null)
             {

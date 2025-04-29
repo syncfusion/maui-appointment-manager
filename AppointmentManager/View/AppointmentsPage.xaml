@@ -16,7 +16,7 @@
         <Grid RowDefinitions="52,*">
             <Grid.Resources>
                 <local:MonthToImageConverter x:Key="MonthToImageConverter"/>
-                <DataTemplate x:Key="AgendaHeaderTemplate" x:DataType="BindingExtension">
+                <DataTemplate x:Key="AgendaHeaderTemplate" x:DataType="local:MonthToImageConverter">
                     <Grid>
                         <Image Aspect="Fill" Source="{Binding Converter={StaticResource MonthToImageConverter}}"/>
                         <Label x:Name="label" HorizontalOptions="Start" VerticalOptions="Start" TextColor="Black" FontSize="16" Padding="55, 20, 0, 0" Text="{Binding StringFormat='{0:MMMM yyyy}'}"/>
@@ -25,17 +25,17 @@
             </Grid.Resources>
 
             <!-- TabView Control -->
-            <tab:SfTabView x:Name="AppointmentsTabView" 
+            <tab:SfTabView x:Name="AppointmentsTabView" BackgroundColor="{AppThemeBinding Dark=#1C1B1F, Light=#FFFBFE}"
                            HeightRequest="50" 
                            VerticalOptions="Start">
-                <tab:SfTabItem Header="Upcoming appointments"/>
-                <tab:SfTabItem Header="Past appointments"/>
+                <tab:SfTabItem Header="Upcoming appointments" TextColor="{AppThemeBinding Light=#1C1B1F, Dark=#FFFBFE}"/>
+                <tab:SfTabItem Header="Past appointments" TextColor="{AppThemeBinding Light=#1C1B1F, Dark=#FFFBFE}"/>
             </tab:SfTabView>
 
             <!-- Scheduler Section -->
             <Grid Background="#f8f7ff" Grid.Row="1" x:DataType="local:SchedulerViewModel">
                 <scheduler:SfScheduler View="Agenda" 
-                                       Background="White" 
+                                       Background="{AppThemeBinding Light=White, Dark=Black}" 
                                        x:Name="Scheduler" 
                                        AppointmentsSource="{Binding Events}" 
                                        DisplayDate="{Binding DisplayDate}">

@@ -48,10 +48,9 @@ namespace ManageAppointments
         /// <remarks>
         /// The password must be exactly 8 characters long.
         /// </remarks>
-        [Display(Name = "Password")]
+        [Display(Prompt = "Enter your password", Name = "Password")]
         [DataType(DataType.Password)]
-        [Required(ErrorMessage = "Enter the password")]
-        [StringLength(8, MinimumLength = 8, ErrorMessage = "Password must be exactly 8 characters.")]
+        [Required(ErrorMessage = "Enter a valid password")]
         public string Password
         {
             get => _password;
