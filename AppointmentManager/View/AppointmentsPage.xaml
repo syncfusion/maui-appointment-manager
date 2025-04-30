@@ -4,6 +4,7 @@
              xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
              xmlns:tab="clr-namespace:Syncfusion.Maui.Toolkit.TabView;assembly=Syncfusion.Maui.Toolkit"
              xmlns:behaviors="clr-namespace:ManageAppointments.Behaviors"
+             xmlns:date="clr-namespace:System;assembly=System.Runtime"
              x:Class="ManageAppointments.AppointmentsPage">
 
     <ContentView.BindingContext>
@@ -16,8 +17,8 @@
         <Grid RowDefinitions="52,*">
             <Grid.Resources>
                 <local:MonthToImageConverter x:Key="MonthToImageConverter"/>
-                <DataTemplate x:Key="AgendaHeaderTemplate" x:DataType="local:MonthToImageConverter">
-                    <Grid>
+                <DataTemplate x:Key="AgendaHeaderTemplate">
+                    <Grid x:DataType="date:DateTime">
                         <Image Aspect="Fill" Source="{Binding Converter={StaticResource MonthToImageConverter}}"/>
                         <Label x:Name="label" HorizontalOptions="Start" VerticalOptions="Start" TextColor="Black" FontSize="16" Padding="55, 20, 0, 0" Text="{Binding StringFormat='{0:MMMM yyyy}'}"/>
                     </Grid>
