@@ -1,0 +1,49 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:navigationdrawer="clr-namespace:Syncfusion.Maui.Toolkit.NavigationDrawer;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:local="clr-namespace:ManageAppointments"
+             xmlns:behaviors="clr-namespace:ManageAppointments.Behaviors"
+             x:Class="ManageAppointments.MainPage">
+    <ContentPage.Behaviors>
+        <behaviors:NavigationDrawerBehavior />
+    </ContentPage.Behaviors>
+    
+    <Grid RowDefinitions="Auto,*">
+        <!-- Top Bar -->
+        <Grid BackgroundColor="{AppThemeBinding Dark=#D0BCFF, Light=#6750A4}" Padding="10,5" HeightRequest="40">
+            <Label x:Name="menuButton" Text="&#xe719;" Padding="{OnPlatform Android='0,8,0,0'}" FontFamily="MauiMaterialAssets" FontSize="{OnPlatform Android=Large, WinUI=Medium}" TextColor="{AppThemeBinding Light=#FFFFFF, Dark=#1C1B1F}"
+                         WidthRequest="{OnPlatform Android=40, WinUI=40, MacCatalyst=16, iOS=40}" HeightRequest="{OnPlatform Android=40, WinUI=25}"
+                         HorizontalOptions="Start"
+                         VerticalOptions="Center"/>
+        </Grid>
+
+        <!-- Navigation Drawer -->
+        <navigationdrawer:SfNavigationDrawer x:Name="navigationDrawer" Grid.Row="1">
+            <navigationdrawer:SfNavigationDrawer.DrawerSettings>
+                <navigationdrawer:DrawerSettings>
+                    <navigationdrawer:DrawerSettings.DrawerContentView>
+                        <ListView x:Name="listView" 
+                                  SeparatorVisibility="None" SelectionMode="Single">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" Padding="10" x:DataType="FlyoutItem">
+                                            <Image Source="{Binding Icon}" WidthRequest="20" HeightRequest="20"/>
+                                            <Label Text="{Binding Title}" FontSize="16" TextColor="{AppThemeBinding Light=#1C1B1F, Dark=#FFFBFE}" VerticalOptions="Center" Margin="10,0,0,0"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </navigationdrawer:DrawerSettings.DrawerContentView>
+                </navigationdrawer:DrawerSettings>
+            </navigationdrawer:SfNavigationDrawer.DrawerSettings>
+
+            <navigationdrawer:SfNavigationDrawer.ContentView>
+                <ContentView x:Name="mainContentView">
+                    <local:DashBoard/>
+                </ContentView>
+            </navigationdrawer:SfNavigationDrawer.ContentView>
+        </navigationdrawer:SfNavigationDrawer>
+    </Grid>
+</ContentPage>

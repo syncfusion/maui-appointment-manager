@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:ManageAppointments"
+             xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
+             x:Class="ManageAppointments.CalendarPage"
+             x:DataType="local:SchedulerViewModel"
+             BackgroundColor="White">
+
+    <ContentView.BindingContext>
+        <local:SchedulerViewModel/>
+    </ContentView.BindingContext>
+
+    <ContentView.Resources>
+        <DataTemplate x:Key="dayAppointmentTemplate" x:DataType="scheduler:SchedulerAppointment">
+            <Grid ColumnDefinitions="{OnPlatform Android='*', WinUI='0.3*,0.7*'}" Background="{Binding Background}">
+                <Image Aspect="AspectFit" Grid.Column="0" Margin="5"
+                       HeightRequest="20" WidthRequest="20"
+                       VerticalOptions="Center" HorizontalOptions="{OnPlatform Android=Center, WinUI=Start}"
+                       Source="{Binding Location}"/>
+                <Label Text="{Binding Subject}" Grid.Column="1"
+                       FontSize="12" TextColor="{AppThemeBinding Light=Black, Dark=White}" 
+                       VerticalOptions="Center" HorizontalOptions="Start"
+                       Margin="0,0,20,0"
+                       LineBreakMode="WordWrap"
+                       IsVisible="{OnPlatform Default=True, Android=False, iOS=False}"/>
+            </Grid>
+        </DataTemplate>
+    </ContentView.Resources>
+
+    <Border Stroke="{AppThemeBinding Light=#F6F6F6, Dark=#2A2A2A}" Background="{AppThemeBinding Light=#F8F7FF, Dark=#333333}" StrokeThickness="2">
+        <scheduler:SfScheduler View="Week" 
+                               Background="{AppThemeBinding Light=White, Dark=Black}" 
+                               BackgroundColor="{DynamicResource SfSchedulerNormalBackground}" 
+                               ShowDatePickerButton="True" 
+                               AllowViewNavigation="False" 
+                               AllowAppointmentDrag="False"
+                               AllowedViews="Month,Week,WorkWeek,Day" 
+                               AppointmentsSource="{Binding Events}" 
+                               DisplayDate="{Binding DisplayDate}">
+
+            <scheduler:SfScheduler.AppointmentMapping>
+                <scheduler:SchedulerAppointmentMapping
+                    Subject="EventName" 
+                    StartTime="From"
+                    EndTime="To"
+                    Background="Background"
+                    Location="Location"
+                    IsAllDay="IsAllDay"/>
+            </scheduler:SfScheduler.AppointmentMapping>
+
+            <scheduler:SfScheduler.MonthView>
+                <scheduler:SchedulerMonthView AppointmentTemplate="{StaticResource dayAppointmentTemplate}">
+                    <scheduler:SchedulerMonthView.ViewHeaderSettings>
+                        <scheduler:SchedulerViewHeaderSettings DayFormat="ddd"
+                                                       />
+                    </scheduler:SchedulerMonthView.ViewHeaderSettings>
+                </scheduler:SchedulerMonthView>
+            </scheduler:SfScheduler.MonthView>
+
+            <scheduler:SfScheduler.DaysView>
+                <scheduler:SchedulerDaysView AppointmentTemplate="{StaticResource dayAppointmentTemplate}">
+                    <scheduler:SchedulerDaysView.ViewHeaderSettings>
+                        <scheduler:SchedulerViewHeaderSettings DayFormat="ddd"
+                                   />
+                    </scheduler:SchedulerDaysView.ViewHeaderSettings>
+                </scheduler:SchedulerDaysView>
+            </scheduler:SfScheduler.DaysView>
+        </scheduler:SfScheduler>
+    </Border>
+</ContentView>
