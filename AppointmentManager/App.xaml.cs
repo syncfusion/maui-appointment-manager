@@ -10,26 +10,32 @@ namespace ManageAppointments
         public App()
         {
             InitializeComponent();
+            ApplyTheme(Application.Current!.RequestedTheme);
             this.RequestedThemeChanged += App_RequestedThemeChanged;
         }
 
         private void App_RequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
         {
             // Update the theme based on the requested theme change (light or dark)
-            ICollection<ResourceDictionary> mergedDictionaries = Application.Current!.Resources.MergedDictionaries;
-            var theme = mergedDictionaries.OfType<SyncfusionThemeResourceDictionary>().FirstOrDefault();
+            ApplyTheme(e.RequestedTheme);
+        }
 
-            if (theme != null)
+        private void ApplyTheme(AppTheme theme)
+        {
+            ICollection<ResourceDictionary> mergedDictionaries = Application.Current!.Resources.MergedDictionaries;
+            var syncfusionTheme = mergedDictionaries.OfType<SyncfusionThemeResourceDictionary>().FirstOrDefault();
+
+            if (syncfusionTheme != null)
             {
-                if (e.RequestedTheme == AppTheme.Dark)
+                if (theme == AppTheme.Dark)
                 {
                     // Set the visual theme to MaterialDark for dark mode
-                    theme.VisualTheme = SfVisuals.MaterialDark;
+                    syncfusionTheme.VisualTheme = SfVisuals.MaterialDark;
                 }
                 else
                 {
                     // Set the visual theme to MaterialLight for light mode
-                    theme.VisualTheme = SfVisuals.MaterialLight;
+                    syncfusionTheme.VisualTheme = SfVisuals.MaterialLight;
                 }
             }
         }

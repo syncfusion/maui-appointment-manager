@@ -86,7 +86,7 @@
                            Margin="5"
                            HeaderRowHeight="50"
                            AutoGenerateColumnsMode="None"
-                           ColumnWidthMode="{OnPlatform Android='Auto', WinUI='Fill'}"
+                           ColumnWidthMode="{OnPlatform Android='Auto', WinUI='Fill', MacCatalyst='Fill', iOS='Auto'}"
                            AllowResizingColumns="True"
                            RowHeight="50"
                            VerticalOptions="FillAndExpand"
@@ -121,7 +121,7 @@
                         </DataTemplate>
                     </syncfusion:DataGridTemplateColumn.CellTemplate>
                 </syncfusion:DataGridTemplateColumn>
-                <syncfusion:DataGridTextColumn MappingName="Subject" HeaderText="Subject" ColumnWidthMode="LastColumnFill"/>
+                <syncfusion:DataGridTextColumn MappingName="Subject" HeaderText="Subject"/>
             </syncfusion:SfDataGrid.Columns>
         </syncfusion:SfDataGrid>
     </Grid>

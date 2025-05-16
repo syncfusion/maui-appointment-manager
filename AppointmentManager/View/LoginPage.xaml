@@ -30,11 +30,12 @@
               HorizontalOptions="Center" VerticalOptions="Center" IsClippedToBounds="True" HeightRequest="{OnPlatform Default=420, Android=400, iOS=380, WinUI=450, MacCatalyst=450}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="90"/>
-                <RowDefinition Height="{OnPlatform Default=175, Android=170, iOS=155, WinUI=155, MacCatalyst=180}"/>
+                <RowDefinition Height="{OnPlatform Default=175, Android=180, iOS=155, WinUI=155, MacCatalyst=180}"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
+            <!-- Welcome back and login to your account labels -->
             <StackLayout VerticalOptions="Center">
                 <Label Padding="0,10,0,0" 
                        HorizontalOptions="Center" 
@@ -54,18 +55,19 @@
                 </Label>
             </StackLayout>
 
-            <dataForm:SfDataForm x:Name="loginForm" 
-                                 LayoutType="TextInputLayout" 
-                                 Padding="{OnPlatform  WinUI='0,0,0,0', MacCatalyst='0,20,0,0'}"
-                                 Grid.Row="1"
-                                 ValidationMode="PropertyChanged"
-                                 DataObject="{Binding LoginFormModel, Mode=TwoWay}"
-                                 WidthRequest="{OnPlatform Default=350, Android=320, iOS=300, WinUI=360, MacCatalyst=360}">
-                <dataForm:SfDataForm.TextInputLayoutSettings>
-                    <dataForm:TextInputLayoutSettings ShowHelperText="True" FocusedStroke="#a64dff" />
-                </dataForm:SfDataForm.TextInputLayoutSettings>
-            </dataForm:SfDataForm>
+            <!-- Data from -->
+            <Grid Grid.Row="1" HorizontalOptions="Center" WidthRequest="{OnPlatform Default=350, Android=320, iOS=300, WinUI=360, MacCatalyst=360}">
+                <dataForm:SfDataForm x:Name="loginForm" 
+                     LayoutType="TextInputLayout"
+                     ValidationMode="PropertyChanged"
+                     DataObject="{Binding LoginFormModel, Mode=TwoWay}">
+                    <dataForm:SfDataForm.TextInputLayoutSettings>
+                        <dataForm:TextInputLayoutSettings ShowHelperText="True" FocusedStroke="#a64dff" />
+                    </dataForm:SfDataForm.TextInputLayoutSettings>
+                </dataForm:SfDataForm>
+            </Grid>
 
+            <!-- Remember me and password -->
             <Grid ColumnDefinitions="0.5*,0.5*" Grid.Row="2" Margin="{OnPlatform Android='10', iOS='10', WinUI='40,20,20,0', MacCatalyst='20,10,20,0'}" Padding="{OnPlatform Android='0,10,0,0', iOS='0,10,0,0', WinUI='0,0,0,10', MacCatalyst='0,0,0,20'}" VerticalOptions="Start">
                 <HorizontalStackLayout VerticalOptions="End" Padding="0,0,0,0">
                     <CheckBox Color="{AppThemeBinding Dark=#D0BCFF, Light=#a64dff}" HeightRequest="{OnPlatform WinUI=30}"/>
@@ -76,6 +78,7 @@
                        FontSize="{OnPlatform Default=12, Android=11, iOS=11, WinUI=13, MacCatalyst=13}" VerticalOptions="Center"/>
             </Grid>
 
+            <!-- Login button -->
             <button:SfButton Text="Login" x:Name="loginButton" HeightRequest="35" TextColor="{AppThemeBinding Dark=#1C1B1E, Light=#FFFBFE}"
                              WidthRequest="{OnPlatform Default=350, Android=300, iOS=300, WinUI=340, MacCatalyst=360}"
                              VerticalOptions="End" HorizontalOptions="Fill" 
@@ -83,7 +86,6 @@
                              CornerRadius="{OnPlatform Default=20, Android=18, iOS=16, WinUI=22, MacCatalyst=22}"
                              FontAttributes="Bold"
                              Grid.Row="3" Background="{AppThemeBinding Dark=#D0BCFF, Light=#584191}">
-                
             </button:SfButton>
         </Grid>
     </Grid>
