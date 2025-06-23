@@ -3,8 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:local="clr-namespace:ManageAppointments"
              xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
+             xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              x:Class="ManageAppointments.CalendarPage"
              x:DataType="local:SchedulerViewModel"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
+             xmlns:calendar="clr-namespace:Syncfusion.Maui.Calendar;assembly=Syncfusion.Maui.Calendar"
              BackgroundColor="White">
 
     <ContentView.BindingContext>
@@ -13,59 +18,391 @@
 
     <ContentView.Resources>
         <DataTemplate x:Key="dayAppointmentTemplate" x:DataType="scheduler:SchedulerAppointment">
-            <Grid ColumnDefinitions="{OnPlatform Android='*', WinUI='0.3*,0.7*'}" Background="{Binding Background}">
-                <Image Aspect="AspectFit" Grid.Column="0" Margin="5"
+            <HorizontalStackLayout Background="{Binding Background}">
+                <Image Aspect="AspectFit" Margin="10"
                        HeightRequest="20" WidthRequest="20"
                        VerticalOptions="Center" HorizontalOptions="{OnPlatform Android=Center, WinUI=Start}"
                        Source="{Binding Location}"/>
-                <Label Text="{Binding Subject}" Grid.Column="1"
-                       FontSize="12" TextColor="{AppThemeBinding Light=Black, Dark=White}" 
+                <Label Text="{Binding Subject}"
+                       FontSize="12" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryForeground}, Dark={StaticResource AppointmentManagerPrimaryForeground}}" 
                        VerticalOptions="Center" HorizontalOptions="Start"
                        Margin="0,0,20,0"
                        LineBreakMode="WordWrap"
                        IsVisible="{OnPlatform Default=True, Android=False, iOS=False}"/>
+            </HorizontalStackLayout>
+        </DataTemplate>
+        <DataTemplate x:Key="MobileHeaderTemplate" x:DataType="local:SchedulerViewModel">
+            <Grid ColumnDefinitions="*,auto" BackgroundColor="{AppThemeBinding Light={StaticResource SampleBrowserBackgroundLight}, Dark={StaticResource SampleBrowserBackground}}">
+                <Label Grid.Column="0" Text="&#xe755;" FontFamily="MauiSampleFontIcon" FontSize="24" HorizontalOptions="Start" VerticalOptions="Center" Margin="20,0,0,0"
+                       TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_4"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <buttons:SfButton Grid.Column="1" Margin="0,0,20,0" Text="Save" x:Name="saveButton" HeightRequest="35" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryForeground}, Dark={StaticResource AppointmentManagerPrimaryForegroundDark}}"
+                    WidthRequest="{OnPlatform Default=50, Android=80, iOS=80}" FontSize="14"
+                    VerticalOptions="Center" HorizontalOptions="End" 
+                    CornerRadius="{OnPlatform Default=20, Android=18, iOS=16}"
+                    Command="{Binding AddAppointment}"
+                    Background="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryBackground}, Dark={StaticResource AppointmentManagerPrimaryBackgroundDark}}">
+                </buttons:SfButton>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="WindowsHeaderTemplate" x:DataType="local:SchedulerViewModel">
+            <Grid ColumnDefinitions="*,40" Margin="20,10,20,0">
+                <Label Grid.Column="0" Margin="4,0,0,0" Text="Edit Event" FontSize="24" VerticalOptions="Center" HorizontalOptions="Start" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}">
+                </Label>
+                <Border Grid.Column="1" HeightRequest="40" WidthRequest="40" StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="25"/>
+                    </Border.StrokeShape>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal"/>
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource AppointmentManagerFlatButtonBackgroundHovered}, Dark={StaticResource AppointmentManagerFlatButtonBackgroundHoveredDark}}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <Label Text="&#xe755;" FontFamily="MauiSampleFontIcon" FontSize="24" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForegroundAlt1}, Dark={StaticResource AppointmentManagerContentForegroundAlt1Dark}}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_4"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Border>
             </Grid>
         </DataTemplate>
     </ContentView.Resources>
+    <Border Stroke="{AppThemeBinding Light=#F6F6F6, Dark=#2A2A2A}" Background="{AppThemeBinding Light=#F8F7FF, Dark=#333333}" StrokeThickness="0">
+        <Grid>
+            <Grid.Resources>
+                <local:TimeSpanToTextConverter x:Key="TimeSpanToTextConverter"/>
+            </Grid.Resources>
+            <scheduler:SfScheduler x:Name="Scheduler" View="Week" 
+                   Background="{AppThemeBinding Light={StaticResource AppointmentManagerContentBackground}, Dark={StaticResource AppointmentManagerContentBackgroundDark}}" 
+                   BackgroundColor="{DynamicResource SfSchedulerNormalBackground}" 
+                   ShowDatePickerButton="True" 
+                   AllowViewNavigation="False" 
+                   AllowAppointmentDrag="False"
+                   AllowedViews="Month,Week,WorkWeek,Day" 
+                   AppointmentsSource="{Binding Events}" 
+                   DisplayDate="{Binding DisplayDate}"
+                   DoubleTapped="Scheduler_DoubleTapped">
 
-    <Border Stroke="{AppThemeBinding Light=#F6F6F6, Dark=#2A2A2A}" Background="{AppThemeBinding Light=#F8F7FF, Dark=#333333}" StrokeThickness="2">
-        <scheduler:SfScheduler View="Week" 
-                               Background="{AppThemeBinding Light=White, Dark=Black}" 
-                               BackgroundColor="{DynamicResource SfSchedulerNormalBackground}" 
-                               ShowDatePickerButton="True" 
-                               AllowViewNavigation="False" 
-                               AllowAppointmentDrag="False"
-                               AllowedViews="Month,Week,WorkWeek,Day" 
-                               AppointmentsSource="{Binding Events}" 
-                               DisplayDate="{Binding DisplayDate}">
+                <scheduler:SfScheduler.AppointmentMapping>
+                    <scheduler:SchedulerAppointmentMapping
+                        Subject="EventName" 
+                        StartTime="From"
+                        EndTime="To"
+                        Background="Background"
+                        Location="Location"
+                        IsAllDay="IsAllDay"/>
+                </scheduler:SfScheduler.AppointmentMapping>
 
-            <scheduler:SfScheduler.AppointmentMapping>
-                <scheduler:SchedulerAppointmentMapping
-                    Subject="EventName" 
-                    StartTime="From"
-                    EndTime="To"
-                    Background="Background"
-                    Location="Location"
-                    IsAllDay="IsAllDay"/>
-            </scheduler:SfScheduler.AppointmentMapping>
+                <scheduler:SfScheduler.MonthView>
+                    <scheduler:SchedulerMonthView AppointmentTemplate="{StaticResource dayAppointmentTemplate}"/>
+                </scheduler:SfScheduler.MonthView>
 
-            <scheduler:SfScheduler.MonthView>
-                <scheduler:SchedulerMonthView AppointmentTemplate="{StaticResource dayAppointmentTemplate}">
-                    <scheduler:SchedulerMonthView.ViewHeaderSettings>
-                        <scheduler:SchedulerViewHeaderSettings DayFormat="ddd"
-                                                       />
-                    </scheduler:SchedulerMonthView.ViewHeaderSettings>
-                </scheduler:SchedulerMonthView>
-            </scheduler:SfScheduler.MonthView>
+                <scheduler:SfScheduler.DaysView>
+                    <scheduler:SchedulerDaysView AppointmentTemplate="{StaticResource dayAppointmentTemplate}">
+                        <scheduler:SchedulerDaysView.ViewHeaderSettings>
+                            <scheduler:SchedulerViewHeaderSettings DayFormat="ddd"/>
+                        </scheduler:SchedulerDaysView.ViewHeaderSettings>
+                    </scheduler:SchedulerDaysView>
+                </scheduler:SfScheduler.DaysView>
+                <scheduler:SfScheduler.HeaderView>
+                    <scheduler:SchedulerHeaderView Height="45" Background="{AppThemeBinding Light={StaticResource AppointmentManagerContentBackground}, Dark={StaticResource AppointmentManagerContentBackgroundDark}}">
+                    </scheduler:SchedulerHeaderView>
+                </scheduler:SfScheduler.HeaderView>
+            </scheduler:SfScheduler>
+            <popup:SfPopup x:Name="sfPopup" IsOpen="{Binding IsOpen}" IsVisible="Hidden" BindingContext="{Binding}" Closing="sfPopup_Closing" WidthRequest="350" HeightRequest="{OnPlatform WinUI=540, MacCatalyst=595}" 
+                           AutoSizeMode="Both" HeaderHeight="{OnPlatform WinUI=60, Android=56, iOS=120, MacCatalyst=60}">
+                <popup:SfPopup.HeaderTemplate>
+                    <OnPlatform x:TypeArguments="DataTemplate">
+                        <On Platform="WinUI" Value="{StaticResource WindowsHeaderTemplate}"/>
+                        <On Platform="MacCatalyst" Value="{StaticResource WindowsHeaderTemplate}"/>
+                        <On Platform="Android" Value="{StaticResource MobileHeaderTemplate}" />
+                        <On Platform="iOS" Value="{StaticResource MobileHeaderTemplate}" />
+                    </OnPlatform>
+                </popup:SfPopup.HeaderTemplate>
+                <popup:SfPopup.ContentTemplate>
+                    <DataTemplate x:DataType="local:SchedulerViewModel">
+                        <Grid RowDefinitions="*,auto" Margin="{OnPlatform Android='24,6,24,10', iOS='24,6,24,16', WinUI='24,6,24,16', MacCatalyst='24,6,24,16'}">
+                            <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
+                                <Grid RowDefinitions="auto,auto,auto,auto,*">
+                                    <!-- Event name text layout -->
+                                    <VerticalStackLayout Grid.Row="0">
+                                        <Label Text="Title" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForegroundAlt1}, Dark={StaticResource AppointmentManagerContentForegroundAlt1Dark}}" FontSize="12"></Label>
+                                        <inputLayout:SfTextInputLayout Margin="0,6,0,0" ShowHint="False" HeightRequest="60" x:Name="eventTextLayout" ContainerBackground="{AppThemeBinding Light={StaticResource AppointmentManagerInputBackground}, Dark={StaticResource AppointmentManagerInputBackgroundDark}}">
+                                            <inputLayout:SfTextInputLayout.InputViewPadding>
+                                                <OnPlatform x:TypeArguments="Thickness">
+                                                    <On Platform="WinUI" Value="10,0,10,10" />
+                                                    <On Platform="iOS" Value="10,10,10,15" />
+                                                    <On Platform="Android" Value="10,5,10,5" />
+                                                    <On Platform="MacCatalyst" Value="10,5,10,10" />
+                                                </OnPlatform>
+                                            </inputLayout:SfTextInputLayout.InputViewPadding>
+                                            <Entry x:Name="eventNameText" Margin="0,0,0,0" FontSize="14" Text="{Binding AppointmentEditorModel.Subject}" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}"/>
+                                        </inputLayout:SfTextInputLayout>
+                                    </VerticalStackLayout>
 
-            <scheduler:SfScheduler.DaysView>
-                <scheduler:SchedulerDaysView AppointmentTemplate="{StaticResource dayAppointmentTemplate}">
-                    <scheduler:SchedulerDaysView.ViewHeaderSettings>
-                        <scheduler:SchedulerViewHeaderSettings DayFormat="ddd"
-                                   />
-                    </scheduler:SchedulerDaysView.ViewHeaderSettings>
-                </scheduler:SchedulerDaysView>
-            </scheduler:SfScheduler.DaysView>
-        </scheduler:SfScheduler>
+                                    <Grid ColumnDefinitions="0.5*,0.5*" Grid.Row="1">
+                                        <!-- Start date text layout & picker -->
+                                        <VerticalStackLayout Grid.Column="0">
+                                            <Label Text="Start date" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForegroundAlt1}, Dark={StaticResource AppointmentManagerContentForegroundAlt1Dark}}" FontSize="12"></Label>
+                                            <inputLayout:SfTextInputLayout Margin="0,6,0,0"  HeightRequest="60" ShowHint="False" ContainerBackground="{AppThemeBinding Light={StaticResource AppointmentManagerInputBackground}, Dark={StaticResource AppointmentManagerInputBackgroundDark}}">
+                                                <inputLayout:SfTextInputLayout.InputViewPadding>
+                                                    <OnPlatform x:TypeArguments="Thickness">
+                                                        <On Platform="WinUI" Value="10,1,10,2" />
+                                                        <On Platform="iOS" Value="10,3,10,7" />
+                                                        <On Platform="Android" Value="10,3,10,7" />
+                                                        <On Platform="MacCatalyst" Value="10,1,10,2" />
+                                                    </OnPlatform>
+                                                </inputLayout:SfTextInputLayout.InputViewPadding>
+                                                <inputLayout:SfTextInputLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_3" />
+                                                </inputLayout:SfTextInputLayout.GestureRecognizers>
+                                                <Grid ColumnDefinitions="*, Auto">
+                                                    <Label x:Name="startDate_picker" HorizontalOptions="Start" FontSize="14" VerticalOptions="Center" Text="{Binding AppointmentEditorModel.StartDate, Converter={StaticResource TimeSpanToTextConverter}}" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}" />
+                                                    <Label x:Name="startDatePickerButton" Grid.Column="1" Text="&#xe7B0;" FontFamily="MauiSampleFontIcon" FontSize="14" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}" VerticalOptions="Center" Margin="10,0,0,0" />
+                                                </Grid>
+                                            </inputLayout:SfTextInputLayout>
+                                        </VerticalStackLayout>
+
+                                        <!-- Start time text layout & picker -->
+                                        <VerticalStackLayout Grid.Column="1">
+                                            <Label Text="Start time" Margin="12,0,0,0" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForegroundAlt1}, Dark={StaticResource AppointmentManagerContentForegroundAlt1Dark}}" FontSize="12"></Label>
+                                            <inputLayout:SfTextInputLayout Margin="10,6,0,0"  IsEnabled="{Binding AppointmentEditorModel.IsEditorEnabled}" HeightRequest="60" ShowHint="False" ContainerBackground="{AppThemeBinding Light={StaticResource AppointmentManagerInputBackground}, Dark={StaticResource AppointmentManagerInputBackgroundDark}}" >
+                                                <inputLayout:SfTextInputLayout.InputViewPadding>
+                                                    <OnPlatform x:TypeArguments="Thickness">
+                                                        <On Platform="WinUI" Value="10,1,10,2" />
+                                                        <On Platform="iOS" Value="10,3,10,7" />
+                                                        <On Platform="Android" Value="10,3,10,7" />
+                                                        <On Platform="MacCatalyst" Value="10,1,10,2" />
+                                                    </OnPlatform>
+                                                </inputLayout:SfTextInputLayout.InputViewPadding>
+                                                <inputLayout:SfTextInputLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1" />
+                                                </inputLayout:SfTextInputLayout.GestureRecognizers>
+                                                <Grid ColumnDefinitions="*, Auto">
+                                                    <Label x:Name="startTime_picker" IsEnabled="{Binding AppointmentEditorModel.IsEditorEnabled}" HorizontalOptions="Start" FontSize="14" VerticalOptions="Center" Text="{Binding AppointmentEditorModel.StartTime, Converter={StaticResource TimeSpanToTextConverter}}" 
+                                                       TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}">
+                                                        <Label.Resources>
+                                                            <Style TargetType="Label">
+                                                                <Style.Triggers>
+                                                                    <Trigger TargetType="Label" Property="IsEnabled" Value="False">
+                                                                        <Setter Property="TextColor" Value="{StaticResource ForegroundDisabled}" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Label.Resources>
+                                                    </Label>
+                                                    <Label x:Name="startpickerButton"  IsEnabled="{Binding AppointmentEditorModel.IsEditorEnabled}" Grid.Column="1" Text="&#xe758;" FontFamily="MauiSampleFontIcon" FontSize="14" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}" 
+                                                       VerticalOptions="Center" Margin="10,0,0,0" >
+                                                        <Label.Resources>
+                                                            <Style TargetType="Label">
+                                                                <Style.Triggers>
+                                                                    <Trigger TargetType="Label" Property="IsEnabled" Value="False">
+                                                                        <Setter Property="TextColor" Value="{StaticResource ForegroundDisabled}" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Label.Resources>
+                                                    </Label>
+                                                </Grid>
+                                            </inputLayout:SfTextInputLayout>
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <Grid ColumnDefinitions="0.5*,0.5*" Grid.Row="2">
+                                        <!-- End date text layout & picker -->
+                                        <VerticalStackLayout Grid.Column="0">
+                                            <Label Text="End date"  TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForegroundAlt1}, Dark={StaticResource AppointmentManagerContentForegroundAlt1Dark}}" FontSize="12"></Label>
+                                            <inputLayout:SfTextInputLayout Margin="0,6,0,0"  HeightRequest="60" ShowHint="False" ContainerBackground="{AppThemeBinding Light={StaticResource AppointmentManagerInputBackground}, Dark={StaticResource AppointmentManagerInputBackgroundDark}}" >
+                                                <inputLayout:SfTextInputLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2" />
+                                                </inputLayout:SfTextInputLayout.GestureRecognizers>
+                                                <inputLayout:SfTextInputLayout.InputViewPadding>
+                                                    <OnPlatform x:TypeArguments="Thickness">
+                                                        <On Platform="WinUI" Value="10,1,10,2" />
+                                                        <On Platform="iOS" Value="10,3,10,7" />
+                                                        <On Platform="Android" Value="10,3,10,7" />
+                                                        <On Platform="MacCatalyst" Value="10,1,10,2" />
+                                                    </OnPlatform>
+                                                </inputLayout:SfTextInputLayout.InputViewPadding>
+                                                <Grid ColumnDefinitions="*, Auto">
+                                                    <Label x:Name="endDate_picker" HorizontalOptions="Start" FontSize="14" VerticalOptions="Center" Text="{Binding AppointmentEditorModel.EndDate, Converter={StaticResource TimeSpanToTextConverter}}" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}" />
+                                                    <Label x:Name="endDatePickerButton" Grid.Column="1" Text="&#xe7B0;" FontFamily="MauiSampleFontIcon" FontSize="14" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}" VerticalOptions="Center" Margin="10,0,0,0" />
+                                                </Grid>
+                                            </inputLayout:SfTextInputLayout>
+                                        </VerticalStackLayout>
+                                        <!-- End time Text layout & picker -->
+                                        <VerticalStackLayout  Grid.Column="1" >
+                                            <Label Text="End time" Margin="12,0,0,0" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForegroundAlt1}, Dark={StaticResource AppointmentManagerContentForegroundAlt1Dark}}" FontSize="12"></Label>
+                                            <inputLayout:SfTextInputLayout IsEnabled="{Binding AppointmentEditorModel.IsEditorEnabled}" Margin="10,6,0,0" HeightRequest="60" ShowHint="False" ContainerBackground="{AppThemeBinding Light={StaticResource AppointmentManagerInputBackground}, Dark={StaticResource AppointmentManagerInputBackgroundDark}}" >
+                                                <inputLayout:SfTextInputLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                                                </inputLayout:SfTextInputLayout.GestureRecognizers>
+                                                <inputLayout:SfTextInputLayout.InputViewPadding>
+                                                    <OnPlatform x:TypeArguments="Thickness">
+                                                        <On Platform="WinUI" Value="10,1,10,2" />
+                                                        <On Platform="iOS" Value="10,3,10,7" />
+                                                        <On Platform="Android" Value="10,3,10,7" />
+                                                        <On Platform="MacCatalyst" Value="10,1,10,2" />
+                                                    </OnPlatform>
+                                                </inputLayout:SfTextInputLayout.InputViewPadding>
+                                                <Grid ColumnDefinitions="*, Auto">
+                                                    <Label x:Name="endTime_picker" HorizontalOptions="Start" FontSize="14" VerticalOptions="Center" Text="{Binding AppointmentEditorModel.EndTime, Converter={StaticResource TimeSpanToTextConverter}}" 
+                                                       TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}">
+                                                        <Label.Resources>
+                                                            <Style TargetType="Label">
+                                                                <Style.Triggers>
+                                                                    <Trigger TargetType="Label" Property="IsEnabled" Value="False">
+                                                                        <Setter Property="TextColor" Value="{StaticResource ForegroundDisabled}" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Label.Resources>
+                                                    </Label>
+                                                    <Label x:Name="endpickerButton" Grid.Column="1" Text="&#xe758;" FontFamily="MauiSampleFontIcon" FontSize="14" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}"
+                                                       VerticalOptions="Center" Margin="10,0,0,0">
+                                                        <Label.Resources>
+                                                            <Style TargetType="Label">
+                                                                <Style.Triggers>
+                                                                    <Trigger TargetType="Label" Property="IsEnabled" Value="False">
+                                                                        <Setter Property="TextColor" Value="{StaticResource ForegroundDisabled}" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Label.Resources>
+                                                    </Label>
+                                                </Grid>
+                                            </inputLayout:SfTextInputLayout>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                    <!-- Check box -->
+                                    <Grid x:Name="allDay" VerticalOptions="Start" ColumnDefinitions="40,*" Grid.Row="3">
+                                        <buttons:SfCheckBox x:Name="switchAllDay" Margin="-8,0,0,0" Grid.Column="0" VerticalOptions="Center" EnabledAnimation="False" 
+                                                             IsChecked="{Binding AppointmentEditorModel.IsAllDay}" StateChanged="switchAllDay_StateChanged"/>
+                                        <Label Grid.Column="1" Margin="-5,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="Start" Text="All Day"/>
+                                    </Grid>
+                                    <!-- Notes -->
+                                    <VerticalStackLayout Padding="0,15,0,0" Grid.Row="4">
+                                        <Label Text="Description" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForegroundAlt1}, Dark={StaticResource AppointmentManagerContentForegroundAlt1Dark}}" FontSize="12"></Label>
+                                        <inputLayout:SfTextInputLayout Margin="0,6,0,0"  x:Name="organizer_layout" ContainerBackground="{AppThemeBinding Light={StaticResource AppointmentManagerInputBackground}, Dark={StaticResource AppointmentManagerInputBackgroundDark}}" >
+                                            <inputLayout:SfTextInputLayout.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="MacCatalyst" Value="150" />
+                                                    <On Platform="WinUI" Value="90" />
+                                                    <On Platform="Android" Value="150" />
+                                                    <On Platform="iOS" Value="150" />
+                                                </OnPlatform>
+                                            </inputLayout:SfTextInputLayout.HeightRequest>
+                                            <inputLayout:SfTextInputLayout.InputViewPadding>
+                                                <OnPlatform x:TypeArguments="Thickness">
+                                                    <On Platform="WinUI" Value="10,0,10,6" />
+                                                    <On Platform="iOS" Value="10,1,10,15" />
+                                                    <On Platform="Android" Value="10,1,10,15" />
+                                                    <On Platform="MacCatalyst" Value="15,1,10,15" />
+                                                </OnPlatform>
+                                            </inputLayout:SfTextInputLayout.InputViewPadding>
+                                            <Editor x:Name="organizerText" Text="{Binding  AppointmentEditorModel.Notes}" FontSize="14"/>
+                                        </inputLayout:SfTextInputLayout>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </ScrollView>
+                            <!-- Save button , Cancel button -->
+                            <Grid HorizontalOptions="End" HeightRequest="40" Grid.Row="1" ColumnDefinitions="auto" Margin="0,0,0,0" >
+                                <HorizontalStackLayout HorizontalOptions="End">
+                                    <Button x:Name="cancelButton" BorderColor="Transparent" WidthRequest="80" CornerRadius="20" Text="Cancel" Command="{Binding CancelAppointment}" 
+                                                      IsVisible="{OnPlatform WinUI=true, MacCatalyst=true, Android=false, iOS=false}">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroupList>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Normal">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="BackgroundColor" Value="Transparent" />
+                                                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryBackground}, Dark={StaticResource AppointmentManagerPrimaryBackgroundDark}}" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                    <VisualState x:Name="PointerOver">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource AppointmentManagerFlatButtonBackgroundHovered}, Dark={StaticResource AppointmentManagerFlatButtonBackgroundHoveredDark}}" />
+                                                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryBackground}, Dark={StaticResource AppointmentManagerPrimaryBackgroundDark}}" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateGroupList>
+                                        </VisualStateManager.VisualStateGroups>
+                                    </Button>
+                                    <Button Margin="10,0,0,0" x:Name="saveButton" Command="{Binding AddAppointment}" Text="Save" BorderColor="Transparent"
+                                                      WidthRequest="80" CornerRadius="20" IsVisible="{OnPlatform WinUI=true, MacCatalyst=true, Android=false, iOS=false}">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroupList>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Normal">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="BackgroundColor" Value="Transparent" />
+                                                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryBackground}, Dark={StaticResource AppointmentManagerPrimaryBackgroundDark}}" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                    <VisualState x:Name="PointerOver">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource AppointmentManagerFlatButtonBackgroundHovered}, Dark={StaticResource AppointmentManagerFlatButtonBackgroundHoveredDark}}" />
+                                                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryBackground}, Dark={StaticResource AppointmentManagerPrimaryBackgroundDark}}" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateGroupList>
+                                        </VisualStateManager.VisualStateGroups>
+                                    </Button>
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </popup:SfPopup.ContentTemplate>
+            </popup:SfPopup>
+            <!--Time Picker , Calendars -->
+            <picker:SfTimePicker x:Name="endTimePicker" Mode="Dialog" PopupWidth="220" PopupHeight="240" IsOpen="False" IsVisible="Hidden" SelectedTime="{Binding AppointmentEditorModel.EndTime, Mode=TwoWay}" WidthRequest="80" HeightRequest="70"/>
+            <picker:SfTimePicker x:Name="startTimePicker" Mode="Dialog" PopupWidth="220" PopupHeight="240" IsOpen="False" IsVisible="Hidden" SelectedTime="{Binding AppointmentEditorModel.StartTime, Mode=TwoWay}" WidthRequest="80" HeightRequest="70"/>
+            <calendar:SfCalendar x:Name="endDatePicker" Mode="Dialog" IsOpen="False" IsVisible="Hidden" SelectionChanged="endDatePicker_SelectionChanged" SelectedDate="{Binding AppointmentEditorModel.EndDate, Mode=TwoWay}" WidthRequest="10" HeightRequest="10">
+                <calendar:SfCalendar.PopupHeight>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="MacCatalyst" Value="300" />
+                        <On Platform="WinUI" Value="300" />
+                        <On Platform="Android" Value="320" />
+                        <On Platform="iOS" Value="320" />
+                    </OnPlatform>
+                </calendar:SfCalendar.PopupHeight>
+                <calendar:SfCalendar.PopupWidth>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="MacCatalyst" Value="300" />
+                        <On Platform="WinUI" Value="300" />
+                        <On Platform="Android" Value="320" />
+                        <On Platform="iOS" Value="320" />
+                    </OnPlatform>
+                </calendar:SfCalendar.PopupWidth>
+            </calendar:SfCalendar>
+            <calendar:SfCalendar x:Name="startDatePicker" Mode="Dialog" IsOpen="False" IsVisible="Hidden" SelectionChanged="startDatePicker_SelectionChanged"  SelectedDate="{Binding AppointmentEditorModel.StartDate, Mode=TwoWay}" WidthRequest="10" HeightRequest="10">
+                <calendar:SfCalendar.PopupHeight>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="MacCatalyst" Value="300" />
+                        <On Platform="WinUI" Value="300" />
+                        <On Platform="Android" Value="320" />
+                        <On Platform="iOS" Value="320" />
+                    </OnPlatform>
+                </calendar:SfCalendar.PopupHeight>
+                <calendar:SfCalendar.PopupWidth>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="MacCatalyst" Value="300" />
+                        <On Platform="WinUI" Value="300" />
+                        <On Platform="Android" Value="320" />
+                        <On Platform="iOS" Value="320" />
+                    </OnPlatform>
+                </calendar:SfCalendar.PopupWidth>
+            </calendar:SfCalendar>
+        </Grid>
     </Border>
 </ContentView>

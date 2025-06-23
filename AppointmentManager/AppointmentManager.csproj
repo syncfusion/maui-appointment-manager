@@ -74,11 +74,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Syncfusion.Maui.Core" Version="*" />
+		<PackageReference Include="Syncfusion.Maui.TabView" Version="*" />
 		<PackageReference Include="Syncfusion.Maui.DataForm" Version="*" />
 		<PackageReference Include="Syncfusion.Maui.DataGrid" Version="*" />
 		<PackageReference Include="Syncfusion.Maui.Scheduler" Version="*" />
+		<PackageReference Include="Syncfusion.Maui.Calendar" Version="*" />
+		<PackageReference Include="Syncfusion.Maui.Popup" Version="*" />
 		<PackageReference Include="Syncfusion.Maui.Toolkit" Version="*" />
+		<PackageReference Include="Syncfusion.Maui.Core" Version="*" />
+		<PackageReference Include="Syncfusion.Maui.Buttons" Version="*" />
+		<PackageReference Include="Syncfusion.Maui.Inputs" Version="*" />
+		<PackageReference Include="Syncfusion.Maui.Picker" Version="*" />
+		<PackageReference Include="Syncfusion.Maui.ListView" Version="*"/>
+		<PackageReference Include="Syncfusion.Maui.Sliders" Version="*"/>
 	</ItemGroup>
 
 

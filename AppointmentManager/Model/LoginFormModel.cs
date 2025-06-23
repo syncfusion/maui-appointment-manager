@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Syncfusion.Maui.DataForm;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManageAppointments
@@ -13,12 +12,12 @@ namespace ManageAppointments
         /// <summary>
         /// Stores the email address of the admin.
         /// </summary>
-        private string _email = string.Empty;
+        private string _email = "doctor123@gmail.com";
 
         /// <summary>
         /// Stores the password of the admin.
         /// </summary>
-        private string _password = string.Empty;
+        private string _password = "12345678";
 
 
         /// <summary>
@@ -50,6 +49,7 @@ namespace ManageAppointments
         /// </remarks>
         [Display(Prompt = "Enter your password", Name = "Password")]
         [DataType(DataType.Password)]
+        [MinLength(8, ErrorMessage = "Password length must be equal or greater than 8 characters")]
         [Required(ErrorMessage = "Enter a valid password")]
         public string Password
         {

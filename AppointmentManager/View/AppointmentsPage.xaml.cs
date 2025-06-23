@@ -1,9 +1,4 @@
-﻿using Microsoft.Maui.Controls;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-
-namespace ManageAppointments
+﻿namespace ManageAppointments
 {
     public partial class AppointmentsPage : ContentView
     {

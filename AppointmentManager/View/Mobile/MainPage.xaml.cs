@@ -1,7 +1,4 @@
-﻿using Microsoft.Maui.Controls;
-using System.Collections.Generic;
-
-namespace ManageAppointments
+﻿namespace ManageAppointments
 {
     public partial class MainPage : ContentPage
     {

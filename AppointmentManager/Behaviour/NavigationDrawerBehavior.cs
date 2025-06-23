@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Maui.Controls;
-using Syncfusion.Maui.Toolkit.NavigationDrawer;
+﻿using Syncfusion.Maui.Toolkit.NavigationDrawer;
+using MauiListView = Microsoft.Maui.Controls.ListView;
 
 namespace ManageAppointments.Behaviors
 {
@@ -19,7 +17,7 @@ namespace ManageAppointments.Behaviors
         /// <summary>
         /// The ListView that holds the navigation menu items.
         /// </summary>
-        private ListView? listView;
+        private MauiListView? listView;
 
         /// <summary>
         /// The main content view where selected pages will be displayed.
@@ -31,6 +29,9 @@ namespace ManageAppointments.Behaviors
         /// </summary>
         private Label? menuButton;
 
+        /// <summary>
+        /// The recognizer holds tap gesture for menu button. 
+        /// </summary>
         private TapGestureRecognizer? menuTapGestureRecognizer;
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace ManageAppointments.Behaviors
 
             // Find UI elements from MainPage
             navigationDrawer = bindable.FindByName<SfNavigationDrawer>("navigationDrawer");
-            listView = bindable.FindByName<ListView>("listView");
+            listView = bindable.FindByName<MauiListView>("listView");
             mainContentView = bindable.FindByName<ContentView>("mainContentView");
             menuButton = bindable.FindByName<Label>("menuButton"); // Find the ImageButton
 
@@ -55,12 +56,12 @@ namespace ManageAppointments.Behaviors
             }
 
             // Set navigation items
-            listView.ItemsSource = new List<FlyoutItem>
+            listView.ItemsSource = new List<CustomNavigationItem>
             {
-                new FlyoutItem { Title = "Dashboard", Icon = "profilepage.png" },
-                new FlyoutItem { Title = "Scheduler", Icon = "scheduler.png" },
-                new FlyoutItem { Title = "Appointments", Icon = "appointments.png" },
-                new FlyoutItem { Title = "Logout", Icon = "logout.png" }
+                new CustomNavigationItem { Title = "Dashboard", Glyph = "\uE760" },
+                new CustomNavigationItem { Title = "Calendar", Glyph = "\uE758" },
+                new CustomNavigationItem { Title = "Appointments", Glyph = "\uE7B0"  },
+                new CustomNavigationItem { Title = "Log out", Glyph = "\uE7FB" }
             };
 
             // Attach event handlers
@@ -109,9 +110,9 @@ namespace ManageAppointments.Behaviors
             if (e.SelectedItem == null)
                 return;
 
-            var selectedItem = (FlyoutItem)e.SelectedItem;
+            var selectedItem = (CustomNavigationItem)e.SelectedItem;
 
-            if (mainContentView == null || listView == null)
+            if (mainContentView == null || listView == null || navigationDrawer == null )
             {
                 return;
             }
@@ -120,7 +121,7 @@ namespace ManageAppointments.Behaviors
             {
                 mainContentView.Content = new DashBoard();
             }
-            else if (selectedItem.Title == "Scheduler")
+            else if (selectedItem.Title == "Calendar")
             {
                 mainContentView.Content = new CalendarPage();
             }
@@ -128,14 +129,15 @@ namespace ManageAppointments.Behaviors
             {
                 mainContentView.Content = new AppointmentsPage();
             }
-            else if (selectedItem.Title == "Logout")
+            else if (selectedItem.Title == "Log out")
             {
                 // Reset navigation to Login Page
-                App.Current?.Windows[0].Navigation.PushModalAsync(new LoginPage());
+                App.Current?.Windows[0].Navigation.PopModalAsync(true);
             }
 
             // Reset selection (Prevents item from staying highlighted)
-            listView.SelectedItem = selectedItem;
+            navigationDrawer.IsOpen = false;
+            listView.SelectedItem = null;
         }
     }
 }

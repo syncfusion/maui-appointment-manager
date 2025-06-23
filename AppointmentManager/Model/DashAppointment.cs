@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-
-namespace ManageAppointments
+﻿namespace ManageAppointments
 {
     /// <summary>
     /// Represents an appointment in the dashboard.

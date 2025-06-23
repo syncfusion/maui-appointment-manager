@@ -41,4 +41,37 @@
     <Color x:Key="Blue200Accent">#72ACF1</Color>
     <Color x:Key="Blue300Accent">#A7CBF6</Color>
 
+    <!--AppointmentManagerShowcaseLightTheme-->
+    <Color x:Key="AppointmentManagerPrimaryBackground">#6750A4</Color>
+    <Color x:Key="AppointmentManagerPrimaryBackgroundLight1">#F6EDFF</Color>
+    <Color x:Key="AppointmentManagerPrimaryForeground">#FFFFFF</Color>
+    <Color x:Key="AppointmentManagerContentForeground">#1C1B1F</Color>
+    <Color x:Key="AppointmentManagerContentBackground">#FFFBFE</Color>
+    <Color x:Key="UpcomingAppointmentIconColor">#F4890B</Color>
+    <Color x:Key="UpcomingAppointmentLightIconColor">#65F4890B</Color>
+    <Color x:Key="CompletedAppointmentIconColor">#0CBD1E</Color>
+    <Color x:Key="CompletedAppointmentLightIconColor">#650CBD1E</Color>
+    <Color x:Key="MissedAppointmentIconColor">#FF4E4E</Color>
+    <Color x:Key="MissedAppointmentLightIconColor">#65FF4E4E</Color>
+    <Color x:Key="AppointmentManagerImagePrimaryBackground">#506750A4</Color>
+    <Color x:Key="AppointmentManagerInputBackground">#E7E0EC</Color>
+    <Color x:Key="AppointmentManagerContentForegroundAlt1">#49454F</Color>
+    <Color x:Key="AppointmentManagerFlatButtonBackgroundHovered">#146750A4</Color>
+
+    <!--AppointmentManagerShowcaseDarkTheme-->
+    <Color x:Key="AppointmentManagerPrimaryBackgroundDark">#D0BCFF</Color>
+    <Color x:Key="AppointmentManagerPrimaryForegroundDark">#381E72</Color>
+    <Color x:Key="AppointmentManagerContentForegroundDark">#E6E1E5</Color>
+    <Color x:Key="AppointmentManagerContentBackgroundDark">#1C1B1F</Color>
+    <Color x:Key="UpcomingAppointmentIconColorDark">#DA9646</Color>
+    <Color x:Key="UpcomingAppointmentLightIconColorDark">#65DA9646</Color>
+    <Color x:Key="CompletedAppointmentIconColorDark">#33B677</Color>
+    <Color x:Key="CompletedAppointmentLightIconColorDark">#6533B677</Color>
+    <Color x:Key="MissedAppointmentIconColorDark">#BE2B2B</Color>
+    <Color x:Key="MissedAppointmentLightIconColorDark">#65BE2B2B</Color>
+    <Color x:Key="AppointmentManagerImagePrimaryBackgroundDark">#50D0BCFF</Color>
+    <Color x:Key="AppointmentManagerInputBackgroundDark">#49454F</Color>
+    <Color x:Key="AppointmentManagerContentForegroundAlt1Dark">#CAC4D0</Color>
+    <Color x:Key="AppointmentManagerFlatButtonBackgroundHoveredDark">#14D0BCFF</Color>
+
 </ResourceDictionary>

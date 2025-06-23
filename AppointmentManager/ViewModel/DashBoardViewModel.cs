@@ -1,36 +1,30 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 
 namespace ManageAppointments
 {
     /// <summary>
-    /// ViewModel for managing appointment data and statistics in the dashboard.
+    /// ViewModel for dashboard appointments.
     /// </summary>
     public class DashboardViewModel : INotifyPropertyChanged
     {
-        private static readonly string[] subjects = { "General Check-Up", "Asthma", "Diagnostic Report", "Diabetes", "Hypothermia", "Angina" };
-        private static readonly Random random = new Random();
-        private DateTime today = DateTime.Now;
-
         /// <summary>
-        /// Gets the list of appointments.
+        /// Holds the missed appointments count.
         /// </summary>
-        public ObservableCollection<DashAppointment> Appointments { get; set; }
+        public ObservableCollection<DashAppointment> Appointments { get; private set; } = new();
 
         /// <summary>
-        /// Gets the count of upcoming appointments with "Pending" status.
+        /// Holds the missed appointments count.
         /// </summary>
         public int UpcomingAppointmentsCount => Appointments.Count(a => a.Status == "Pending");
 
         /// <summary>
-        /// Gets the count of completed appointments.
+        /// Holds the missed appointments count.
         /// </summary>
         public int CompletedAppointmentsCount => Appointments.Count(a => a.Status == "Completed");
 
         /// <summary>
-        /// Gets the count of missed appointments.
+        /// Holds the missed appointments count.
         /// </summary>
         public int MissedAppointmentsCount => Appointments.Count(a => a.Status == "Missed");
 
@@ -39,81 +33,69 @@ namespace ManageAppointments
         /// </summary>
         public DashboardViewModel()
         {
-            Appointments = new ObservableCollection<DashAppointment>();
-
-            GenerateAppointments();
-
-            // Sort appointments after adding
-            SortAppointments();
-
-            // Update statistics whenever the collection changes
-            Appointments.CollectionChanged += (s, e) => UpdateStatistics();
         }
 
         /// <summary>
-        /// Generates sample appointment data.
+        /// Assigns the shared appointment list from SchedulerViewModel.
         /// </summary>
-        private void GenerateAppointments()
+        public void SetAppointmentsSource(ObservableCollection<DashAppointment> appointments)
         {
-            // 🔹 Past Appointments → Mix of "Completed" and "Missed"
-            for (int i = 4; i >= 1; i--)
+            if (Appointments != appointments)
             {
-                DateTime pastDate = today.AddDays(-i).AddHours(random.Next(9, 17)).AddMinutes(random.Next(0, 60));
-                string status = (i % 2 == 0) ? "Completed" : "Missed";
-                Appointments.Add(CreateAppointment($"1000{i}", status, pastDate));
-            }
+                if (Appointments != null)
+                    Appointments.CollectionChanged -= (s, e) => UpdateStatistics();
 
-            // 🔹 Today's Appointments → At least one "Completed", one "Missed", and one "Pending"
-            Appointments.Add(CreateAppointment("20001", "Completed", today.Date.AddHours(random.Next(9, 12)).AddMinutes(random.Next(0, 60))));
-            Appointments.Add(CreateAppointment("20002", "Missed", today.Date.AddHours(random.Next(12, 14)).AddMinutes(random.Next(0, 60))));
-            Appointments.Add(CreateAppointment("20003", "Pending", today.Date.AddHours(random.Next(14, 17)).AddMinutes(random.Next(0, 60))));
+                Appointments = appointments;
 
-            // 🔹 Future Appointments → All "Pending"
-            for (int i = 1; i <= 5; i++)
-            {
-                DateTime futureDate = today.AddDays(i).AddHours(random.Next(9, 17)).AddMinutes(random.Next(0, 60));
-                Appointments.Add(CreateAppointment($"3000{i}", "Pending", futureDate));
+                Appointments.CollectionChanged += (s, e) => UpdateStatistics();
+
+                SortAppointments();
+
+                UpdateStatusesBasedOnCurrentTime(); // Update statuses here
+
+                UpdateStatistics();
+                OnPropertyChanged(nameof(Appointments));
             }
         }
 
         /// <summary>
-        /// Creates a new appointment instance.
-        /// </summary>
-        /// <param name="id">The appointment ID.</param>
-        /// <param name="status">The appointment status.</param>
-        /// <param name="date">The appointment date.</param>
-        /// <returns>A new <see cref="DashAppointment"/> object.</returns>
-        private DashAppointment CreateAppointment(string id, string status, DateTime date)
-        {
-            return new DashAppointment
-            {
-                ID = id,
-                PatientName = $"Patient {id}",
-                PhoneNumber = $"(+91)9{random.Next(100000000, 999999999)}",
-                Date = date,
-                Subject = subjects[random.Next(subjects.Length)],
-                Status = status
-            };
-        }
-
-        /// <summary>
-        /// Sorts appointments in ascending order by date.
+        /// Method to sort appointments.
         /// </summary>
         private void SortAppointments()
         {
-            var sortedAppointments = Appointments.OrderBy(a => a.Date).ToList();
-            if (!sortedAppointments.SequenceEqual(Appointments))
+            var sorted = Appointments.OrderBy(a => a.Date).ToList();
+            if (!sorted.SequenceEqual(Appointments))
             {
                 Appointments.Clear();
-                foreach (var appointment in sortedAppointments)
-                {
-                    Appointments.Add(appointment);
-                }
+                foreach (var item in sorted)
+                    Appointments.Add(item);
             }
         }
 
         /// <summary>
-        /// Updates appointment statistics.
+        /// Method to update status based on current time.
+        /// </summary>
+        public void UpdateStatusesBasedOnCurrentTime()
+        {
+            var now = DateTime.Now;
+            var rnd = new Random();
+
+            foreach (var appointment in Appointments)
+            {
+                if (appointment.Date > now)
+                {
+                    appointment.Status = "Pending";
+                }
+                else
+                {
+                    appointment.Status = rnd.Next(2) == 0 ? "Missed" : "Completed";
+                }
+            }
+            UpdateStatistics();
+        }
+
+        /// <summary>
+        /// Method to update statistics.
         /// </summary>
         private void UpdateStatistics()
         {
@@ -122,13 +104,15 @@ namespace ManageAppointments
             OnPropertyChanged(nameof(MissedAppointmentsCount));
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// The property changed event.
+        /// </summary>
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
-        /// Notifies when a property value changes.
+        /// Method to trigger the property changed.
         /// </summary>
-        /// <param name="propertyName">The name of the changed property.</param>
+        /// <param name="propertyName">The property name.</param>
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

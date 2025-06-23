@@ -1,0 +1,55 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:navigationdrawer="clr-namespace:Syncfusion.Maui.Toolkit.NavigationDrawer;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:local="clr-namespace:ManageAppointments"
+             xmlns:behaviors="clr-namespace:ManageAppointments.Behaviors"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="ManageAppointments.MainPage">
+    <ContentPage.Behaviors>
+        <behaviors:NavigationDrawerBehavior />
+    </ContentPage.Behaviors>
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Top Bar -->
+        <HorizontalStackLayout BackgroundColor="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryBackground}, Dark={StaticResource AppointmentManagerPrimaryBackgroundDark}}" Padding="10,5" HeightRequest="40">
+            <Label x:Name="menuButton" Text="&#xe719;" Padding="{OnPlatform Android='0,10,0,0', iOS='0,5,0,0'}" FontFamily="MauiMaterialAssets" FontSize="{OnPlatform Android=Medium, WinUI=Medium}" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryForeground}, Dark={StaticResource AppointmentManagerPrimaryForegroundDark}}"
+                         HeightRequest="{OnPlatform Android=40, WinUI=30, MacCatalyst=25, iOS=30}"
+                         HorizontalOptions="Start"
+                         VerticalOptions="Center"/>
+            <Label Text="Doctorspot" Padding="{OnPlatform Android='10,10,0,0', iOS='10,8,0,0'}" FontFamily="MauiMaterialAssets" FontSize="{OnPlatform Android=Small, WinUI=Medium}" TextColor="{AppThemeBinding Light=#FFFFFF, Dark=#1C1B1F}"
+             WidthRequest="{OnPlatform Android=300, WinUI=300, MacCatalyst=300, iOS=300}" HeightRequest="{OnPlatform Android=40, WinUI=30, MacCatalyst=25, iOS=40}"
+             HorizontalOptions="Start"
+             VerticalOptions="Center"/>
+        </HorizontalStackLayout>
+
+        <!-- Navigation Drawer -->
+        <navigationdrawer:SfNavigationDrawer x:Name="navigationDrawer" Grid.Row="1">
+            <navigationdrawer:SfNavigationDrawer.DrawerSettings>
+                <navigationdrawer:DrawerSettings>
+                    <navigationdrawer:DrawerSettings.DrawerContentView>
+                        <ListView x:Name="listView" 
+                                  SeparatorVisibility="None" SelectionMode="Single"
+                                  BackgroundColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentBackground}, Dark={StaticResource AppointmentManagerContentBackgroundDark}}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" Padding="10">
+                                            <Label Text="{Binding Glyph}" FontFamily="MauiSampleFontIcon" FontSize="16" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}" VerticalOptions="Center" Margin="10,0,0,0"/>
+                                            <Label Text="{Binding Title}" FontSize="16" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}" VerticalOptions="Center" Margin="10,0,0,0"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </navigationdrawer:DrawerSettings.DrawerContentView>
+                </navigationdrawer:DrawerSettings>
+            </navigationdrawer:SfNavigationDrawer.DrawerSettings>
+
+            <navigationdrawer:SfNavigationDrawer.ContentView>
+                <ContentView x:Name="mainContentView">
+                    <local:DashBoard/>
+                </ContentView>
+            </navigationdrawer:SfNavigationDrawer.ContentView>
+        </navigationdrawer:SfNavigationDrawer>
+    </Grid>
+</ContentPage>

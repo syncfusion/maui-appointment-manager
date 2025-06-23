@@ -1,7 +1,4 @@
-﻿using Microsoft.Maui.Controls;
-using Syncfusion.Maui.Scheduler;
-using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace ManageAppointments
 {
@@ -41,6 +38,11 @@ namespace ManageAppointments
         private string _location;
 
         /// <summary>
+        /// The notes of the appointment.
+        /// </summary>
+        private string _notes;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Appointment"/> class.
         /// </summary>
         public Appointment()
@@ -51,6 +53,7 @@ namespace ManageAppointments
             _isAllDay = false;
             _background = Brush.Transparent;
             _location = string.Empty;
+            _notes = string.Empty;
         }
 
         /// <summary>
@@ -128,6 +131,19 @@ namespace ManageAppointments
             {
                 _location = value;
                 OnPropertyChanged(nameof(Location));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the notes of the appointment.
+        /// </summary>
+        public string Notes
+        {
+            get { return _notes; }
+            set
+            {
+                _notes = value;
+                OnPropertyChanged(nameof(Notes));
             }
         }
 

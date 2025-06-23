@@ -1,6 +1,4 @@
-﻿using Microsoft.Maui.Controls;
-using System.Linq;
-using Microsoft.Maui.ApplicationModel;
+﻿using System.Reflection;
 using Syncfusion.Maui.Themes;
 
 namespace ManageAppointments
@@ -27,7 +25,7 @@ namespace ManageAppointments
 
             if (syncfusionTheme != null)
             {
-                if (theme == AppTheme.Dark)
+                if (theme == AppTheme.Dark || theme == AppTheme.Unspecified)
                 {
                     // Set the visual theme to MaterialDark for dark mode
                     syncfusionTheme.VisualTheme = SfVisuals.MaterialDark;

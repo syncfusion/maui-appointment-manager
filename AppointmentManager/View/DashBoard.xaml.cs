@@ -1,5 +1,3 @@
-using System.Collections.ObjectModel;
-
 namespace ManageAppointments
 {
     public partial class DashBoard : ContentView
@@ -7,7 +5,8 @@ namespace ManageAppointments
         public DashBoard()
         {
             InitializeComponent();
-            
+            var schedulerVM = new SchedulerViewModel();
+            this.BindingContext = schedulerVM.DashboardVM;
         }
         
     }

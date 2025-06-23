@@ -1,7 +1,4 @@
-﻿using Microsoft.Maui.Controls;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using Syncfusion.Maui.Toolkit.TabView;
 using Syncfusion.Maui.Scheduler;
 
@@ -60,7 +57,7 @@ namespace ManageAppointments.Behaviors
                 tabView = null;
             }
             // Unsubscribe from the event to avoid memory leaks
-            
+
         }
 
         /// <summary>

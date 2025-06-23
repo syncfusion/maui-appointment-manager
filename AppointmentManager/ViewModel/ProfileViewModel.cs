@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ManageAppointments
+﻿namespace ManageAppointments
 {
     /// <summary>
     /// ViewModel for managing user profile-related data.
