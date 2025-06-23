@@ -95,7 +95,7 @@
                 </Border>
             </Grid>
 
-            <Border Grid.Row="1" HorizontalOptions="Start" Margin="0,10,0,0" Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource Border}}">
+            <Border Grid.Row="1" HorizontalOptions="Start" Margin="0,10,0,0" Stroke="{AppThemeBinding Light={StaticResource AppointmentManagerBorder}, Dark={StaticResource AppointmentManagerBorderDark}}">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="20,20,0,0"/>
                 </Border.StrokeShape>

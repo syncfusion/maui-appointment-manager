@@ -57,6 +57,7 @@
     <Color x:Key="AppointmentManagerInputBackground">#E7E0EC</Color>
     <Color x:Key="AppointmentManagerContentForegroundAlt1">#49454F</Color>
     <Color x:Key="AppointmentManagerFlatButtonBackgroundHovered">#146750A4</Color>
+    <Color x:Key="AppointmentManagerBorder">#CAC4D0</Color>
 
     <!--AppointmentManagerShowcaseDarkTheme-->
     <Color x:Key="AppointmentManagerPrimaryBackgroundDark">#D0BCFF</Color>
@@ -73,5 +74,6 @@
     <Color x:Key="AppointmentManagerInputBackgroundDark">#49454F</Color>
     <Color x:Key="AppointmentManagerContentForegroundAlt1Dark">#CAC4D0</Color>
     <Color x:Key="AppointmentManagerFlatButtonBackgroundHoveredDark">#14D0BCFF</Color>
+    <Color x:Key="AppointmentManagerBorderDark">#49454F</Color>
 
 </ResourceDictionary>
