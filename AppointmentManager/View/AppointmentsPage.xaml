@@ -1,0 +1,58 @@
+﻿<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ManageAppointments"
+             xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
+             xmlns:tab="clr-namespace:Syncfusion.Maui.Toolkit.TabView;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:behaviors="clr-namespace:ManageAppointments.Behaviors"
+             xmlns:date="clr-namespace:System;assembly=System.Runtime"
+             x:Class="ManageAppointments.AppointmentsPage">
+
+    <ContentView.BindingContext>
+        <local:SchedulerViewModel/>
+    </ContentView.BindingContext>
+    <ContentView.Behaviors>
+        <behaviors:AppointmentBehavior/>
+    </ContentView.Behaviors>
+    <ContentView.Content>
+        <Grid RowDefinitions="52,*">
+            <Grid.Resources>
+                <local:MonthToImageConverter x:Key="MonthToImageConverter"/>
+                <DataTemplate x:Key="AgendaHeaderTemplate">
+                    <Grid x:DataType="date:DateTime">
+                        <Image Aspect="Fill" Source="{Binding Converter={StaticResource MonthToImageConverter}}"/>
+                        <Label x:Name="label" HorizontalOptions="Start" VerticalOptions="Start" TextColor="Black" FontSize="16" Padding="55, 20, 0, 0" Text="{Binding StringFormat='{0:MMMM yyyy}'}"/>
+                    </Grid>
+                </DataTemplate>
+            </Grid.Resources>
+
+            <!-- TabView Control -->
+            <tab:SfTabView x:Name="AppointmentsTabView" BackgroundColor="{AppThemeBinding Dark=#1C1B1F, Light=#FFFBFE}"
+                           HeightRequest="50" 
+                           VerticalOptions="Start">
+                <tab:SfTabItem Header="Upcoming appointments" TextColor="{AppThemeBinding Light=#1C1B1F, Dark=#FFFBFE}"/>
+                <tab:SfTabItem Header="Past appointments" TextColor="{AppThemeBinding Light=#1C1B1F, Dark=#FFFBFE}"/>
+            </tab:SfTabView>
+
+            <!-- Scheduler Section -->
+            <Grid Background="#f8f7ff" Grid.Row="1" x:DataType="local:SchedulerViewModel">
+                <scheduler:SfScheduler View="Agenda" 
+                                       Background="{AppThemeBinding Light=White, Dark=Black}" 
+                                       x:Name="Scheduler" 
+                                       AppointmentsSource="{Binding Events}" 
+                                       DisplayDate="{Binding DisplayDate}">
+                    <scheduler:SfScheduler.AppointmentMapping>
+                        <scheduler:SchedulerAppointmentMapping
+                            Subject="EventName"
+                            StartTime="From"
+                            EndTime="To"
+                            Background="Background"
+                            IsAllDay="IsAllDay"/>
+                    </scheduler:SfScheduler.AppointmentMapping>
+                    <scheduler:SfScheduler.AgendaView>
+                        <scheduler:SchedulerAgendaView MonthHeaderTemplate="{StaticResource AgendaHeaderTemplate}" />
+                    </scheduler:SfScheduler.AgendaView>
+                </scheduler:SfScheduler>
+            </Grid>
+        </Grid>
+    </ContentView.Content>
+</ContentView>
