@@ -32,7 +32,7 @@
             </HorizontalStackLayout>
         </DataTemplate>
         <DataTemplate x:Key="MobileHeaderTemplate" x:DataType="local:SchedulerViewModel">
-            <Grid ColumnDefinitions="*,auto" BackgroundColor="{AppThemeBinding Light={StaticResource SampleBrowserBackgroundLight}, Dark={StaticResource SampleBrowserBackground}}">
+            <Grid ColumnDefinitions="*,auto" BackgroundColor="{AppThemeBinding Light={StaticResource AppointmentManagerBackgroundLight}, Dark={StaticResource AppointmentManagerBackgroundDark}}">
                 <Label Grid.Column="0" Text="&#xe755;" FontFamily="MauiSampleFontIcon" FontSize="24" HorizontalOptions="Start" VerticalOptions="Center" Margin="20,0,0,0"
                        TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}">
                     <Label.GestureRecognizers>
