@@ -1,0 +1,155 @@
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:navigationdrawer="clr-namespace:Syncfusion.Maui.Toolkit.NavigationDrawer;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:local="clr-namespace:ManageAppointments"
+             x:DataType="local:DashboardViewModel"
+             x:Class="ManageAppointments.DashBoard">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <local:StatusToColorConverter x:Key="StatusToColorConverter"/>
+            <local:StatusToTextColorConverter x:Key="StatusToTextColorConverter"/>
+        </ResourceDictionary>
+        <Style TargetType="syncfusion:DataGridHeaderCell">
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </ContentView.Resources>
+
+    <!--To scroll in landscape mode in android and ios-->
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*">
+            <Grid.Padding>
+                <OnPlatform x:TypeArguments="Thickness" >
+                    <On Platform="Android" Value="10,10,0,0"/>
+                    <On Platform="iOS" Value="10,10,0,0"/>
+                    <On Platform="macCatalyst" Value="10,0,0,10"/>
+                    <On Platform="WinUI" Value="10,0,0,10" />
+                </OnPlatform>
+            </Grid.Padding>
+            <!-- Statistics Section -->
+            <Grid HorizontalOptions="Fill" Padding="0,0,10,0"
+              Grid.Row="0" ColumnDefinitions="{OnPlatform WinUI='*,*,*', MacCatalyst='*,*,*', Android='*', iOS='*'}"
+                  RowDefinitions="{OnPlatform Android='*,*,*', iOS='*,*,*', WinUI='*', MacCatalyst='*'}">
+                
+                <!-- Upcoming Appointments Card -->
+                <Border Grid.Column="{OnPlatform WinUI='0', Android='0', MacCatalyst='0', iOS='0'}" Grid.Row="{OnPlatform WinUI='0', Android='0', MacCatalyst='0', iOS='0'}" 
+                        BackgroundColor="{AppThemeBinding Light={StaticResource UpcomingAppointmentLightIconColor}, Dark={StaticResource UpcomingAppointmentLightIconColorDark}}" 
+                        Stroke="{AppThemeBinding Light='#FFCC80', Dark='Black'}" Padding="15" HorizontalOptions="Fill">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    <Grid>
+                        <VerticalStackLayout>
+                            <Label Text="Upcoming&#10;appointments" LineBreakMode="WordWrap" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=true, iOS=true, WinUI=false, MacCatalyst=false}"/>
+                            <Label Text="Upcoming appointments" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=false, iOS=false, WinUI=true, MacCatalyst=true}"/>
+                            <Label Text="{Binding UpcomingAppointmentsCount}" FontSize="Large"/>
+                        </VerticalStackLayout>
+                        <Border BackgroundColor="{AppThemeBinding Light=White, Dark=Black}" StrokeShape="Ellipse" WidthRequest="56" HeightRequest="56"
+                                Padding="3" HorizontalOptions="End" VerticalOptions="Center">
+                            <Label Text="&#xe758;" FontFamily="MauiSampleFontIcon" TextColor="{AppThemeBinding Light={StaticResource UpcomingAppointmentIconColor}, Dark={StaticResource UpcomingAppointmentIconColorDark}}" FontSize="24" WidthRequest="24" HeightRequest="24"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Completed Appointments Card -->
+                <Border Grid.Column="{OnPlatform WinUI='1', MacCatalyst='1', Android='0', iOS='0'}" Grid.Row="{OnPlatform WinUI='0', MacCatalyst='0', Android='1', iOS='1'}" 
+                        BackgroundColor="{AppThemeBinding Light={StaticResource CompletedAppointmentLightIconColor}, Dark={StaticResource CompletedAppointmentLightIconColorDark}}" 
+                        Stroke="{AppThemeBinding Light='#A5D6A7', Dark='Black'}" Padding="15" HorizontalOptions="Fill"
+                        Margin="{OnPlatform Android='0,10,0,10', iOS='0,10,0,10', WinUI='10,0,10,0', MacCatalyst='10,0,10,0' }">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    <Grid>
+                        <VerticalStackLayout>
+                            <Label Text="Completed&#10;appointments" LineBreakMode="WordWrap" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=true, iOS=true, WinUI=false, MacCatalyst=false}"/>
+                            <Label Text="Completed appointments" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=false, iOS=false, WinUI=true, MacCatalyst=true}"/>
+                            <Label Text="{Binding CompletedAppointmentsCount}" FontSize="Large"/>
+                        </VerticalStackLayout>
+                        <Border BackgroundColor="{AppThemeBinding Light=White, Dark=Black}" StrokeShape="Ellipse" WidthRequest="56" HeightRequest="56"
+                                Padding="3" HorizontalOptions="End" VerticalOptions="Center">
+                            <Label Text="&#xe718;" FontFamily="MauiSampleFontIcon" TextColor="{AppThemeBinding Light={StaticResource CompletedAppointmentIconColor}, Dark={StaticResource CompletedAppointmentIconColorDark}}"  FontSize="24" WidthRequest="24" HeightRequest="24"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Missed Appointments Card -->
+                <Border Grid.Column="{OnPlatform WinUI='2', MacCatalyst='2', Android='0', iOS='2'}" Grid.Row="{OnPlatform WinUI='0', MacCatalyst='0', Android='2', iOS='2'}" 
+                        BackgroundColor="{AppThemeBinding Light={StaticResource MissedAppointmentLightIconColor}, Dark={StaticResource MissedAppointmentLightIconColorDark}}" 
+                        Stroke="{AppThemeBinding Light='#EF9A9A', Dark='Black'}" Padding="15" HorizontalOptions="Fill">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    <Grid>
+                        <VerticalStackLayout>
+                            <Label Text="Missed&#10;appointments" LineBreakMode="WordWrap" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=true, iOS=true, WinUI=false, MacCatalyst=false}"/>
+                            <Label Text="Missed appointments" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=false, iOS=false, WinUI=true, MacCatalyst=true}"/>
+                            <Label Text="{Binding MissedAppointmentsCount}" FontSize="Large"/>
+                        </VerticalStackLayout>
+                        <Border BackgroundColor="{AppThemeBinding Light=White, Dark=Black}" StrokeShape="Ellipse" WidthRequest="56" HeightRequest="56"
+                                Padding="3" HorizontalOptions="End" VerticalOptions="Center">
+                            <Label Text="&#xe71a;" FontFamily="MauiSampleFontIcon" TextColor="{AppThemeBinding Light={StaticResource MissedAppointmentIconColor}, Dark={StaticResource MissedAppointmentIconColorDark}}"  FontSize="24" WidthRequest="24" HeightRequest="24"/>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Border Grid.Row="1" HorizontalOptions="Start" Margin="0,10,0,0" Stroke="{AppThemeBinding Light={StaticResource AppointmentManagerBorder}, Dark={StaticResource AppointmentManagerBorderDark}}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20,20,0,0"/>
+                </Border.StrokeShape>
+                <Grid Padding="-5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!-- Appointment Status Label -->
+                    <Label Grid.Row="0" Text="Appointment Status" FontSize="Medium" Margin="20,20,0,10"/>
+
+                    <!-- DataGrid Section -->
+                    <syncfusion:SfDataGrid  Grid.Row="1" ItemsSource="{Binding Appointments}" 
+                                Margin="5"
+                                HeaderRowHeight="50"
+                                AutoGenerateColumnsMode="None"
+                                ColumnWidthMode="{OnPlatform Android='Auto', WinUI='Fill', MacCatalyst='Fill', iOS='Auto'}"
+                                AllowResizingColumns="True"
+                                RowHeight="50"
+                                VerticalOptions="Fill"
+                                HorizontalOptions="Fill">
+                        
+                        <syncfusion:SfDataGrid.Columns>
+                            <syncfusion:DataGridTextColumn MappingName="ID" HeaderText="ID" ColumnWidthMode="Auto"/>
+                            <syncfusion:DataGridTextColumn MappingName="PatientName" HeaderText="Patient Name"/>
+                            <syncfusion:DataGridTextColumn MappingName="Subject" HeaderText="Subject"/>
+                            <syncfusion:DataGridTextColumn MappingName="PhoneNumber" HeaderText="Phone Number"/>
+                            <syncfusion:DataGridTextColumn MappingName="Date" HeaderText="Date" Format="dd MMM yyyy"/>
+                            <syncfusion:DataGridTextColumn MappingName="Date" HeaderText="Time" Format="hh:mm tt"/>
+                            <syncfusion:DataGridTemplateColumn HeaderText="Status" HeaderTextAlignment="Start">
+                                <syncfusion:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate x:DataType="local:DashAppointment">
+                                        <Border BackgroundColor="{Binding Status, Converter={StaticResource StatusToColorConverter}}"
+                                            Stroke="{Binding Status, Converter={StaticResource StatusToColorConverter}}" Margin="10,0,0,0"
+                                            Padding="8,2"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="Center">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="8" />
+                                            </Border.StrokeShape>
+                                            <Label Text="{Binding Status}" 
+                                                  FontSize="14"
+                                                  TextColor="{Binding Status, Converter={StaticResource StatusToTextColorConverter}}" 
+                                                  HorizontalOptions="Center"
+                                                  VerticalOptions="Center" />
+                                        </Border>
+                                    </DataTemplate>
+                                </syncfusion:DataGridTemplateColumn.CellTemplate>
+                            </syncfusion:DataGridTemplateColumn>
+                        </syncfusion:SfDataGrid.Columns>
+                    </syncfusion:SfDataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+   
+</ContentView>

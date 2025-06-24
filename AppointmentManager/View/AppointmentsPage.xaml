@@ -1,0 +1,124 @@
+﻿<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ManageAppointments"
+             xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
+             xmlns:tab="clr-namespace:Syncfusion.Maui.Toolkit.TabView;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:behaviors="clr-namespace:ManageAppointments.Behaviors"
+             xmlns:date="clr-namespace:System;assembly=System.Runtime"
+             x:Class="ManageAppointments.AppointmentsPage">
+
+    <ContentView.BindingContext>
+        <local:SchedulerViewModel/>
+    </ContentView.BindingContext>
+    <ContentView.Behaviors>
+        <behaviors:AppointmentBehavior/>
+    </ContentView.Behaviors>
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style TargetType="tab:SfTabItem">
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup>
+                            <VisualState x:Name="Normal" >
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource AppointmentManagerBorderDark}, Dark={StaticResource AppointmentManagerBorder}}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryBackground}, Dark={StaticResource AppointmentManagerPrimaryBackgroundDark}}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid RowDefinitions="52,*" Padding="0,0,10,0">
+            <Grid.Resources>
+                <local:MonthToImageConverter x:Key="MonthToImageConverter"/>
+                <DataTemplate x:Key="AgendaHeaderTemplate">
+                    <Grid x:DataType="date:DateTime">
+                        <Image Aspect="Fill" Source="{Binding Converter={StaticResource MonthToImageConverter}}"/>
+                        <Label x:Name="label" HorizontalOptions="Start" VerticalOptions="Start" TextColor="Black" FontSize="16" Padding="55, 20, 0, 0" Text="{Binding StringFormat='{0:MMMM yyyy}'}"/>
+                    </Grid>
+                </DataTemplate>
+                <DataTemplate x:Key="HeaderTemplate">
+                    <Grid Background ="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryBackgroundLight1}, Dark={StaticResource AppointmentManagerPrimaryForegroundDark}}">
+                        <Label Padding="16,0,0,0" HorizontalOptions="Start" VerticalOptions="Center" Text="{Binding Text}" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryBackground}, Dark={StaticResource AppointmentManagerPrimaryBackgroundDark}}" FontSize="20"/>
+                    </Grid>
+                </DataTemplate>
+                <DataTemplate x:Key="AgendaTemplate">
+                    <Border Padding="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5" StrokeThickness="0" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Background="{Binding Background}" Padding="5,10,0,10">
+                            <Label x:Name="summary" HorizontalOptions="Start" FontSize="16" VerticalOptions="Start" Text="{Binding Notes}" LineBreakMode="WordWrap" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryForeground}, Dark={StaticResource AppointmentManagerPrimaryForeground}}"/>
+                            <HorizontalStackLayout Padding="0,10,0,0">
+                                <Label x:Name="startTime" HorizontalOptions="Start" VerticalOptions="Start" Text="{Binding StartTime, StringFormat='{0:hh\\:mm tt}'}" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryForeground}, Dark={StaticResource AppointmentManagerPrimaryForeground}}"/>
+                                <Label x:Name="hyphen" HorizontalOptions="Start" VerticalOptions="Start" Text=" -" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryForeground}, Dark={StaticResource AppointmentManagerPrimaryForeground}}"/>
+                                <Label x:Name="endTime" Margin="4,0,0,0" HorizontalOptions="Start" VerticalOptions="Start" Text="{Binding EndTime, StringFormat='{0:hh\\:mm tt}'}" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryForeground}, Dark={StaticResource AppointmentManagerPrimaryForeground}}"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
+                    </Border>
+                </DataTemplate>
+                <Style TargetType="tab:SfTabItem">
+                    <Setter Property="VisualStateManager.VisualStateGroups">
+                        <VisualStateGroupList>
+                            <VisualStateGroup>
+                                <VisualState x:Name="Normal" >
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource AppointmentManagerContentForegroundAlt1}, Dark={StaticResource AppointmentManagerContentForegroundAlt1Dark}}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryBackground}, Dark={StaticResource AppointmentManagerPrimaryBackgroundDark}}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </Setter>
+                </Style>
+            </Grid.Resources>
+
+            <!-- TabView Control -->
+            <tab:SfTabView x:Name="AppointmentsTabView" BackgroundColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentBackground}, Dark={StaticResource AppointmentManagerContentBackgroundDark}}"
+                           HeightRequest="50" 
+                           VerticalOptions="Start"
+                           IndicatorBackground="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryBackground}, Dark={StaticResource AppointmentManagerPrimaryBackgroundDark}}">
+                <tab:SfTabItem Header="Upcoming appointments" />
+                <tab:SfTabItem Header="Past appointments" />
+            </tab:SfTabView>
+
+            <!-- Scheduler Section -->
+            <Grid Background="#f8f7ff" Grid.Row="1" x:DataType="local:SchedulerViewModel">
+                <scheduler:SfScheduler View="Agenda" 
+                                       Background="{AppThemeBinding Light={StaticResource AppointmentManagerContentBackground}, Dark={StaticResource AppointmentManagerContentBackgroundDark}}" 
+                                       x:Name="Scheduler" 
+                                       AppointmentsSource="{Binding Events}" 
+                                       DisplayDate="{Binding DisplayDate}">
+                    <scheduler:SfScheduler.AppointmentMapping>
+                        <scheduler:SchedulerAppointmentMapping
+                            Subject="EventName"
+                            StartTime="From"
+                            EndTime="To"
+                            Background="Background"
+                            Notes="Notes"
+                            IsAllDay="IsAllDay"/>
+                    </scheduler:SfScheduler.AppointmentMapping>
+                    <scheduler:SfScheduler.HeaderView>
+                        <scheduler:SchedulerHeaderView HeaderTemplate="{StaticResource HeaderTemplate}"/>
+                    </scheduler:SfScheduler.HeaderView>
+                    <scheduler:SfScheduler.AgendaView>
+                        <scheduler:SchedulerAgendaView MonthHeaderTemplate="{StaticResource AgendaHeaderTemplate}" AppointmentTemplate="{StaticResource AgendaTemplate}"/>
+                    </scheduler:SfScheduler.AgendaView>
+                </scheduler:SfScheduler>
+            </Grid>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

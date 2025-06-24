@@ -1,0 +1,88 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:system="clr-namespace:System;assembly=netstandard" 
+             xmlns:behaviors="clr-namespace:ManageAppointments.Behaviors"
+             xmlns:local="clr-namespace:ManageAppointments"
+             xmlns:dataForm="clr-namespace:Syncfusion.Maui.DataForm;assembly=Syncfusion.Maui.DataForm"
+             xmlns:button="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             x:DataType="local:ProfileViewModel"
+             x:Class="ManageAppointments.LoginPage"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.BindingContext>
+        <local:ProfileViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <behaviors:LoginBehavior/>
+    </ContentPage.Behaviors>
+
+    <Grid BackgroundColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentBackground}, Dark={StaticResource AppointmentManagerContentBackgroundDark}}"
+          RowDefinitions="*"
+          ColumnDefinitions="{OnPlatform Default='0.5*,0.5*', iOS='*', Android='*'}">
+
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Image Source="login.png"
+                   HorizontalOptions="Start" VerticalOptions="Center"
+                   Aspect="{OnPlatform Default='AspectFill', Android='AspectFit', iOS='AspectFit'}"
+                   IsVisible="{OnPlatform Default=True, iOS=False, Android=False, WinUI=True, MacCatalyst=True}"/>
+            <BoxView IsVisible="{OnPlatform Default=True, iOS=False, Android=False, WinUI=True, MacCatalyst=True}" BackgroundColor="{AppThemeBinding Light={StaticResource AppointmentManagerImagePrimaryBackground}, Dark={StaticResource AppointmentManagerImagePrimaryBackgroundDark}}"/>
+            <VerticalStackLayout Padding="20" Margin="15,0,0,40" 
+                         IsVisible="{OnPlatform Default=True, iOS=False, Android=False, WinUI=True, MacCatalyst=True}"
+                         VerticalOptions="End"
+                         HorizontalOptions="Start">
+                <Label Text="Access quality"
+               TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryForeground}, Dark={StaticResource AppointmentManagerPrimaryForegroundDark}}"
+               FontSize="45"/>
+                <Label Text="healthcare anywhere,"
+               TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryForeground}, Dark={StaticResource AppointmentManagerPrimaryForegroundDark}}"
+               FontSize="45" />
+                <Label Text="anytime."
+               TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryForeground}, Dark={StaticResource AppointmentManagerPrimaryForegroundDark}}"
+               FontSize="45"/>
+            </VerticalStackLayout>
+        </Grid>
+
+        <Grid Grid.Row="0" Grid.Column="{OnPlatform Default=1, iOS=0, Android=0}" BackgroundColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentBackground}, Dark={StaticResource AppointmentManagerContentBackgroundDark}}"
+              HorizontalOptions="Center" VerticalOptions="Center" IsClippedToBounds="True" HeightRequest="{OnPlatform Default=420, Android=400, iOS=380, WinUI=450, MacCatalyst=450}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="{OnPlatform Default=175, Android=180, iOS=155, WinUI=155, MacCatalyst=180}"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <!-- Welcome back and login to your account labels -->
+            <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <Label Text="Welcome back" 
+                       FontSize="{OnPlatform Default=32, Android=30, iOS=28, WinUI=34, MacCatalyst=34}" 
+                       TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}"
+                       HorizontalTextAlignment="Center"/>
+                <Label Text="Log in to your account"
+                       FontSize="{OnPlatform Default=14, Android=16, iOS=12, WinUI=16, MacCatalyst=16}"
+                       TextColor="{AppThemeBinding Light=#1C1B1F, Dark=#FFFBFE}"
+                       HorizontalTextAlignment="Center"/>
+            </StackLayout>
+
+            <!-- Data from -->
+            <Grid Grid.Row="1" HorizontalOptions="Center" WidthRequest="{OnPlatform Default=350, Android=320, iOS=340, WinUI=360, MacCatalyst=400}">
+                <dataForm:SfDataForm x:Name="loginForm" 
+                     LayoutType="TextInputLayout"
+                     ValidationMode="Manual"
+                     DataObject="{Binding LoginFormModel, Mode=TwoWay}">
+                    <dataForm:SfDataForm.TextInputLayoutSettings>
+                        <dataForm:TextInputLayoutSettings ShowHelperText="True" FocusedStroke="#a64dff" />
+                    </dataForm:SfDataForm.TextInputLayoutSettings>
+                </dataForm:SfDataForm>
+            </Grid>
+
+            <!-- Login button -->
+            <button:SfButton Grid.Row="2" Text="Log in" x:Name="loginButton" HeightRequest="35" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryForeground}, Dark={StaticResource AppointmentManagerPrimaryForegroundDark}}"
+                             WidthRequest="{OnPlatform Default=350, Android=280, iOS=300, WinUI=320, MacCatalyst=360}"
+                             VerticalOptions="End" HorizontalOptions="Fill" 
+                             Margin="{OnPlatform Default='20,0,20,0', Android='10,0,10,0', iOS='10,0,10,0', WinUI='30,0,30,0', MacCatalyst='30,0,30,0'}"
+                             CornerRadius="{OnPlatform Default=20, Android=18, iOS=16, WinUI=22, MacCatalyst=22}"
+                             Background="{AppThemeBinding Light={StaticResource AppointmentManagerPrimaryBackground}, Dark={StaticResource AppointmentManagerPrimaryBackgroundDark}}">
+            </button:SfButton>
+        </Grid>
+    </Grid>
+</ContentPage>
