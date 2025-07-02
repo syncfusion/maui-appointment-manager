@@ -1,6 +1,53 @@
 # Create maui-appointment-manager application in .NET MAUI platform 
 
-This repository contains the samples that demonstrate to the .NET MAUI appointment manager application using SfScheduler, SfDataGrid and SfDataForm
+This repository contains the samples that demonstrate to the .NET MAUI appointment manager application using SfScheduler, SfDataGrid and SfDataForm.
+
+## Features Integrated
+
+- Dashboard Insights
+- Appointment scheduling
+- Edit Appointments
+- Agenda View
+
+## Project Patterns and Features
+
+- XAML UI
+- Converters
+- Custom controls
+- Data binding
+- Behaviors
+- MVVM
+- Styles
+
+## Syncfusion Controls
+
+This project uses the following Syncfusion controls based on the information in your clipboard:
+
+- SfScheduler
+- SfDataGrid
+- SfDataForm
+- SfButton
+- SfPopup
+- SfTextInputLayout
+- SfTabView
+- SfTimePicker
+- SfCalendar
+- SfDatePicker
+- SfListView
+- SfNavigationDrawer
+
+## Screens
+
+**Desktop View** 
+
+<img src="Images\Appointment-manager-Dashboard.png" Width="600" />
+<img src="Images\Appointment-manager-Calendar.png" Width="600" />
+<img src="Images\Appointment-manager-AppointmentEditor.png" Width="600" />
+<img src="Images\Appointment-manager-Appointments.png" Width="600" />
+
+**Mobile View** 
+
+<img src="Images\Appointment-manager-Dashboard-Mobile.png" Width="190" />  <img src="Images\Appointment-manager-Calendar-Mobile.png" Width="190" />  <img src="Images\Appointment-manager-AppointmentEditor-Mobile.png" Width="190" /> <img src="Images\Appointment-manager-Appointments-Mobile.png" Width="190" />
 
 ## Supported platforms
 
