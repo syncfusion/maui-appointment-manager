@@ -32,7 +32,6 @@ This project uses the following Syncfusion controls based on the information in 
 - SfTabView
 - SfTimePicker
 - SfCalendar
-- SfDatePicker
 - SfListView
 - SfNavigationDrawer
 
@@ -41,14 +40,10 @@ This project uses the following Syncfusion controls based on the information in 
 **Desktop View** 
 
 <img src="Images\Appointment-manager-Dashboard.png" Width="600" />
-<img src="Images\Appointment-manager-Calendar.png" Width="600" />
-<img src="Images\Appointment-manager-AppointmentEditor.png" Width="600" />
-<img src="Images\Appointment-manager-Appointments.png" Width="600" />
 
 **Mobile View** 
 
-<img src="Images\Appointment-manager-Dashboard-Mobile.png" Width="190" />  <img src="Images\Appointment-manager-Calendar-Mobile.png" Width="190" />  <img src="Images\Appointment-manager-AppointmentEditor-Mobile.png" Width="190" /> <img src="Images\Appointment-manager-Appointments-Mobile.png" Width="190" />
-
+<img src="Images\Appointment-manager-Dashboard-Mobile.png" Width="190" />
 ## Supported platforms
 
 .NET Multi-platform App UI (.NET MAUI) apps can be written for the following platforms:
