@@ -19,7 +19,7 @@ This repository contains the samples that demonstrate to the .NET MAUI appointme
 - MVVM
 - Styles
 
-## Syncfusion Controls
+## Syncfusion Controls 
 
 This project uses the following Syncfusion controls based on the information in your clipboard:
 
@@ -44,6 +44,7 @@ This project uses the following Syncfusion controls based on the information in 
 **Mobile View** 
 
 <img src="Images\Appointment-manager-Dashboard-Mobile.png" Width="190" />
+
 ## Supported platforms
 
 .NET Multi-platform App UI (.NET MAUI) apps can be written for the following platforms:
