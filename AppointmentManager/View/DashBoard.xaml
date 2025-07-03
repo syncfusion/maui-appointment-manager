@@ -42,9 +42,9 @@
                     </Border.StrokeShape>
                     <Grid>
                         <VerticalStackLayout>
-                            <Label Text="Upcoming&#10;appointments" LineBreakMode="WordWrap" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=true, iOS=true, WinUI=false, MacCatalyst=false}"/>
-                            <Label Text="Upcoming appointments" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=false, iOS=false, WinUI=true, MacCatalyst=true}"/>
-                            <Label Text="{Binding UpcomingAppointmentsCount}" FontSize="Large"/>
+                            <Label Text="Upcoming&#10;appointments" LineBreakMode="WordWrap" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=true, iOS=true, WinUI=false, MacCatalyst=false}" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}"/>
+                            <Label Text="Upcoming appointments" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=false, iOS=false, WinUI=true, MacCatalyst=true}" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}"/>
+                            <Label Text="{Binding UpcomingAppointmentsCount}" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}"/>
                         </VerticalStackLayout>
                         <Border BackgroundColor="{AppThemeBinding Light=White, Dark=Black}" StrokeShape="Ellipse" WidthRequest="56" HeightRequest="56"
                                 Padding="3" HorizontalOptions="End" VerticalOptions="Center">
@@ -63,9 +63,9 @@
                     </Border.StrokeShape>
                     <Grid>
                         <VerticalStackLayout>
-                            <Label Text="Completed&#10;appointments" LineBreakMode="WordWrap" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=true, iOS=true, WinUI=false, MacCatalyst=false}"/>
-                            <Label Text="Completed appointments" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=false, iOS=false, WinUI=true, MacCatalyst=true}"/>
-                            <Label Text="{Binding CompletedAppointmentsCount}" FontSize="Large"/>
+                            <Label Text="Completed&#10;appointments" LineBreakMode="WordWrap" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=true, iOS=true, WinUI=false, MacCatalyst=false}" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}"/>
+                            <Label Text="Completed appointments" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=false, iOS=false, WinUI=true, MacCatalyst=true}" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}"/>
+                            <Label Text="{Binding CompletedAppointmentsCount}" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}"/>
                         </VerticalStackLayout>
                         <Border BackgroundColor="{AppThemeBinding Light=White, Dark=Black}" StrokeShape="Ellipse" WidthRequest="56" HeightRequest="56"
                                 Padding="3" HorizontalOptions="End" VerticalOptions="Center">
@@ -83,9 +83,9 @@
                     </Border.StrokeShape>
                     <Grid>
                         <VerticalStackLayout>
-                            <Label Text="Missed&#10;appointments" LineBreakMode="WordWrap" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=true, iOS=true, WinUI=false, MacCatalyst=false}"/>
-                            <Label Text="Missed appointments" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=false, iOS=false, WinUI=true, MacCatalyst=true}"/>
-                            <Label Text="{Binding MissedAppointmentsCount}" FontSize="Large"/>
+                            <Label Text="Missed&#10;appointments" LineBreakMode="WordWrap" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=true, iOS=true, WinUI=false, MacCatalyst=false}" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}"/>
+                            <Label Text="Missed appointments" FontSize="Small" Padding="0,0,0,20" IsVisible="{OnPlatform Android=false, iOS=false, WinUI=true, MacCatalyst=true}" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}"/>
+                            <Label Text="{Binding MissedAppointmentsCount}" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}"/>
                         </VerticalStackLayout>
                         <Border BackgroundColor="{AppThemeBinding Light=White, Dark=Black}" StrokeShape="Ellipse" WidthRequest="56" HeightRequest="56"
                                 Padding="3" HorizontalOptions="End" VerticalOptions="Center">
@@ -105,7 +105,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <!-- Appointment Status Label -->
-                    <Label Grid.Row="0" Text="Appointment Status" FontSize="Medium" Margin="20,20,0,10"/>
+                    <Label Grid.Row="0" Text="Appointment Status" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}" FontSize="Medium" Margin="20,20,0,10"/>
 
                     <!-- DataGrid Section -->
                     <syncfusion:SfDataGrid  Grid.Row="1" ItemsSource="{Binding Appointments}" 
