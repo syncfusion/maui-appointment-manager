@@ -286,7 +286,7 @@
                                     <Grid x:Name="allDay" VerticalOptions="Start" ColumnDefinitions="40,*" Grid.Row="3">
                                         <buttons:SfCheckBox x:Name="switchAllDay" Margin="-8,0,0,0" Grid.Column="0" VerticalOptions="Center" EnabledAnimation="False" 
                                                              IsChecked="{Binding AppointmentEditorModel.IsAllDay}" StateChanged="switchAllDay_StateChanged"/>
-                                        <Label Grid.Column="1" Margin="-5,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="Start" Text="All Day"/>
+                                        <Label Grid.Column="1" Margin="-5,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="Start" Text="All Day" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}"/>
                                     </Grid>
                                     <!-- Notes -->
                                     <VerticalStackLayout Padding="0,15,0,0" Grid.Row="4">
@@ -308,7 +308,7 @@
                                                     <On Platform="MacCatalyst" Value="15,1,10,15" />
                                                 </OnPlatform>
                                             </inputLayout:SfTextInputLayout.InputViewPadding>
-                                            <Editor x:Name="organizerText" Text="{Binding  AppointmentEditorModel.Notes}" FontSize="14"/>
+                                            <Editor x:Name="organizerText" Text="{Binding  AppointmentEditorModel.Notes}" TextColor="{AppThemeBinding Light={StaticResource AppointmentManagerContentForeground}, Dark={StaticResource AppointmentManagerContentForegroundDark}}" FontSize="14"/>
                                         </inputLayout:SfTextInputLayout>
                                     </VerticalStackLayout>
                                 </Grid>
